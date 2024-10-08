@@ -55,7 +55,7 @@ namespace UserService.Controllers
 
             // Генерация токена
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_jwtSecret);
+            var key = Encoding.UTF8.GetBytes(_jwtSecret);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new[]

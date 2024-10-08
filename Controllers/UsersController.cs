@@ -102,8 +102,9 @@ namespace UserService.Controllers
          */
 
         // DELETE: api/Users/5
-        [HttpDelete("{id}")]
         [Authorize]
+        [HttpDelete("{id}")]
+        
         public async Task<IActionResult> DeleteUser(string id)
         {
             var user = await _context.Users.FindAsync(id);

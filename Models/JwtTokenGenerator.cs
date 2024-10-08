@@ -9,6 +9,7 @@ namespace UserService.Models
     public class JwtTokenGenerator
     {
         private readonly JwtSettings _jwtSettings;
+        private readonly ILogger<JwtTokenGenerator> _logger;
 
         public JwtTokenGenerator(IOptions<JwtSettings> jwtSettings)
         {
@@ -34,7 +35,10 @@ namespace UserService.Models
                 expires: DateTime.Now.AddMinutes(_jwtSettings.ExpiryMinutes),
                 signingCredentials: creds);
 
-            return new JwtSecurityTokenHandler().WriteToken(token);
+            var tokenstring = new JwtSecurityTokenHandler().WriteToken(token);
+            _logger.LogDebug("Generated JWT: {Token}", tokenstring);
+
+            return tokenstring;
         }
     }
 
