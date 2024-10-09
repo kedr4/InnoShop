@@ -152,8 +152,11 @@ namespace UserService
                     // Логируем токен из заголовка Authorization
                     if (context.Request.Headers.ContainsKey("Authorization"))
                     {
-                        Log.Information("JWT token received: {Token}", context.Request.Headers["Authorization"].ToString());
+                        var authHeader = context.Request.Headers["Authorization"].ToString();
+                        var token = authHeader.StartsWith("Bearer ") ? authHeader.Substring("Bearer ".Length).Trim() : authHeader;
+                        Log.Information("JWT token received: {Token}", token);
                     }
+
 
                     context.Request.Body.Position = 0; // Вернуть поток на начало
 
