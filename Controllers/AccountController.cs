@@ -19,8 +19,9 @@ namespace UserService.Controllers
         private readonly string _jwtSecret;
         private readonly string _issuer;
         private readonly string _audience;
+        private readonly ILogger<AccountController> _logger;   
 
-        public AccountController(UserContext context, IPasswordHasher<User> passwordHasher, IConfiguration configuration)
+        public AccountController(UserContext context, IPasswordHasher<User> passwordHasher, IConfiguration configuration, ILogger<AccountController> logger)
         {
             _context = context;
             _passwordHasher = passwordHasher;
@@ -29,6 +30,7 @@ namespace UserService.Controllers
             _jwtSecret = configuration["JwtSettings:Secret"];
             _issuer = configuration["JwtSettings:Issuer"];
             _audience = configuration["JwtSettings:Audience"];
+            _logger = logger;
         }
 
         // Регистрация пользователя
@@ -70,6 +72,9 @@ namespace UserService.Controllers
             };
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
+
+            _logger.LogInformation("JWT token generated: {Token}", tokenHandler.WriteToken(token));
+
             return Ok(token);
         }
     }
