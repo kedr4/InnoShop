@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UserService.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.DotNet.Scaffolding.Shared.Messaging;
 
 namespace UserService.Controllers
 {
@@ -47,12 +48,28 @@ namespace UserService.Controllers
 
         // Аутентификация пользователя и генерация JWT токена
         [HttpPost("login")]
-        public async Task<ActionResult<string>> Login(string email, string password)
+        public async Task<ActionResult<UserManagerResponse>> Login(string email, string password)
         {
             var user = await _context.Users.SingleOrDefaultAsync(u => u.Email == email);
-            if (user == null || _passwordHasher.VerifyHashedPassword(user, user.PasswordHash, password) == PasswordVerificationResult.Failed)
+
+            if (user == null)
             {
-                return Unauthorized();
+                return new UserManagerResponse
+                {
+                    Message = "No user found with that email address.",
+                    IsSuccess = false,
+                };
+            }
+
+            // Check if the password is correct
+            var passwordVerificationResult = _passwordHasher.VerifyHashedPassword(user, user.PasswordHash, password);
+            if (passwordVerificationResult == PasswordVerificationResult.Failed)
+            {
+                return new UserManagerResponse
+                {
+                    Message = "Incorrect password.",
+                    IsSuccess = false,
+                };
             }
 
             // Генерация токена
@@ -62,9 +79,9 @@ namespace UserService.Controllers
             {
                 Subject = new ClaimsIdentity(new[]
                 {
-                    new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                    new Claim(ClaimTypes.Email, user.Email)
-                }),
+            new Claim(ClaimTypes.NameIdentifier, user.Id),
+            new Claim(ClaimTypes.Email, user.Email)
+        }),
                 Expires = DateTime.UtcNow.AddMinutes(60),
                 Issuer = _issuer,
                 Audience = _audience,
@@ -77,5 +94,13 @@ namespace UserService.Controllers
 
             return Ok(token);
         }
+
     }
+
+    public class UserManagerResponse
+    {
+        public string Message { get; set; }
+        public bool IsSuccess { get; set; }
+    }
+
 }

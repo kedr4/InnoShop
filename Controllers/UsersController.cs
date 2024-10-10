@@ -16,7 +16,6 @@ namespace UserService.Controllers
     public class UsersController : ControllerBase
     {
         private readonly UserContext _context;
-
         public UsersController(UserContext context)
         {
             _context = context;

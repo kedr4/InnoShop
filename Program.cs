@@ -27,13 +27,22 @@ namespace UserService
                 IConfiguration config = builder.Configuration;
 
                 // Загрузка настроек JWT из appsettings.json
-              //  var jwtSettings = builder.Configuration.GetSection("JwtSettings");
-               // var key = jwtSettings["Secret"];
-               // var issuer = jwtSettings["Issuer"];
-                //var audience = jwtSettings["Audience"];
+                  var jwtSettings = builder.Configuration.GetSection("JwtSettings");
+                 var key = jwtSettings["Secret"];
+                 var issuer = jwtSettings["Issuer"];
+                 var audience = jwtSettings["Audience"];
+
+                // Настройка in-memory базы данных
+                builder.Services.AddDbContext<UserContext>(opt =>
+                    opt.UseInMemoryDatabase("UserDb"));
+
+                // Настройка Identity
+                builder.Services.AddIdentity<User, IdentityRole>()
+                    .AddEntityFrameworkStores<UserContext>()
+                    .AddDefaultTokenProviders();
 
                 // Настройка аутентификации JWT
-                builder.Services.AddAuthentication( x=>
+                builder.Services.AddAuthentication(x =>
                 {
                     x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                     x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -41,17 +50,16 @@ namespace UserService
                 })
                 .AddJwtBearer(x =>
                 {
-                    x.TokenValidationParameters = new TokenValidationParameters
+                    x.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
                     {
 
-                        ValidIssuer = config["JwtSettings:Issuer"],
-                        ValidAudience = config["JwtSettings:Audience"],
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["JwtSettings:Secret"])),
                         ValidateIssuer = true,
                         ValidateAudience = true,
                         ValidateLifetime = true,
                         ValidateIssuerSigningKey = true,
-                        
+                        ValidIssuer = issuer,
+                        ValidAudience = audience,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key))
                     };
 
                     // Логирование событий аутентификации
@@ -78,6 +86,7 @@ namespace UserService
 
 
 
+
                 builder.Services.AddAuthorization();
                 // Добавление сервисов в контейнер
                 builder.Services.AddControllers();
@@ -87,14 +96,9 @@ namespace UserService
                 builder.Host.UseSerilog();
 
 
-                // Настройка in-memory базы данных
-                builder.Services.AddDbContext<UserContext>(opt =>
-                    opt.UseInMemoryDatabase("UserDb"));
+               
 
-                // Настройка Identity
-                builder.Services.AddIdentity<User, IdentityRole>()
-                    .AddEntityFrameworkStores<UserContext>()
-                    .AddDefaultTokenProviders();
+                
 
                 // Настройка Swagger
                 builder.Services.AddEndpointsApiExplorer();
@@ -155,6 +159,10 @@ namespace UserService
                         var authHeader = context.Request.Headers["Authorization"].ToString();
                         var token = authHeader.StartsWith("Bearer ") ? authHeader.Substring("Bearer ".Length).Trim() : authHeader;
                         Log.Information("JWT token received: {Token}", token);
+                        if (token == null)
+                        {
+                            Log.Information("Token is null");
+                        }
                     }
 
 

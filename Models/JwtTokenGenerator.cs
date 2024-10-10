@@ -33,7 +33,9 @@ namespace UserService.Models
                 audience: _jwtSettings.Audience,
                 claims: claims,
                 expires: DateTime.Now.AddMinutes(_jwtSettings.ExpiryMinutes),
-                signingCredentials: creds);
+                signingCredentials: creds
+              // signingCredentials: new SigningCredentials(key, SecurityAlgorithms.HmacSha256 )
+                );
 
             var tokenstring = new JwtSecurityTokenHandler().WriteToken(token);
             _logger.LogDebug("Generated JWT: {Token}", tokenstring);

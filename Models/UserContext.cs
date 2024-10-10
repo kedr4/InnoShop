@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 namespace UserService.Models
 {
-    public class UserContext : IdentityDbContext<User>
+    public class UserContext : IdentityDbContext
     {
         public UserContext(DbContextOptions<UserContext> options)
        : base(options)
