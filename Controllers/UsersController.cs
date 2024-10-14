@@ -42,24 +42,26 @@ namespace UserService.Controllers
             return user;
         }
 
-        // PUT: api/Users/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         [Authorize]
-        public async Task<IActionResult> PutUser(string id, User user)
+        public async Task<IActionResult> PutUser(string id, [FromBody] User updateUser)
         {
-            if (id != user.Id)
+            if (id != updateUser.Id)
             {
-                return BadRequest();
+                return BadRequest("User ID mismatch.");
             }
 
-            if(!ModelState.IsValid)
+            var existingUser = await _context.Users.FindAsync(id);
+            if (existingUser == null)
             {
-                return BadRequest(ModelState);
+                return NotFound("User not found.");
             }
 
-            _context.Entry(user).State = EntityState.Modified;
-
+            // Обновляем только разрешенные поля
+            existingUser.Name = updateUser.Name;
+            existingUser.Lastname = updateUser.Lastname;
+            existingUser.Email = updateUser.Email; // Убедитесь, что email можно изменять
+            existingUser.Role = updateUser.Role;
 
             try
             {
@@ -71,10 +73,7 @@ namespace UserService.Controllers
                 {
                     return NotFound();
                 }
-                else
-                {
-                    throw;
-                }
+                throw;
             }
 
             return NoContent();

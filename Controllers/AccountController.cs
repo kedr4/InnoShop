@@ -34,17 +34,44 @@ namespace UserService.Controllers
             _logger = logger;
         }
 
-        // Регистрация пользователя
-        [HttpPost("register")]
-        public async Task<ActionResult<User>> Register(User user)
+        public class RegisterRequest
         {
-            // Хешируем пароль перед сохранением
-            user.PasswordHash = _passwordHasher.HashPassword(user, user.PasswordHash);
+            public string Email { get; set; }
+            public string Password { get; set; }
+            public string Name { get; set; }
+            public string Lastname { get; set; }
+            public string Role { get; set; }
+        }
+
+        [HttpPost("register")]
+        public async Task<ActionResult> Register([FromBody] RegisterRequest request)
+        {
+            // Проверяем, существует ли уже пользователь с таким email
+            var existingUser = await _context.Users.SingleOrDefaultAsync(u => u.Email == request.Email);
+            if (existingUser != null)
+            {
+                return BadRequest("A user with this email already exists.");
+            }
+
+            // Создаем нового пользователя
+            var user = new User
+            {
+                UserName = request.Email,
+                Email = request.Email,
+                Name = request.Name,
+                Lastname = request.Lastname,
+                Role = request.Role
+            };
+
+            // Хешируем пароль
+            user.PasswordHash = _passwordHasher.HashPassword(user, request.Password);
+
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction(nameof(Register), new { id = user.Id }, user);
         }
+
 
         // Аутентификация пользователя и генерация JWT токена
         [HttpPost("login")]
