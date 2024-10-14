@@ -14,11 +14,7 @@ namespace UserService
     {
         public static void Main(string[] args)
         {
-            // Настройка Serilog
-            Log.Logger = new LoggerConfiguration()
-                .MinimumLevel.Debug()
-                .WriteTo.Console()
-                .CreateLogger();
+          
 
             try
             {
@@ -32,9 +28,9 @@ namespace UserService
                  var issuer = jwtSettings["Issuer"];
                  var audience = jwtSettings["Audience"];
 
-                // Настройка in-memory базы данных
-                builder.Services.AddDbContext<UserContext>(opt =>
-                    opt.UseInMemoryDatabase("UserDb"));
+                // Настройка SQL Server
+                builder.Services.AddDbContext<UserContext>(options =>
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
                 // Настройка Identity
                 builder.Services.AddIdentity<User, IdentityRole>()
@@ -92,14 +88,6 @@ namespace UserService
                 builder.Services.AddControllers();
 
 
-                // Настройка логирования Serilog
-                builder.Host.UseSerilog();
-
-
-               
-
-                
-
                 // Настройка Swagger
                 builder.Services.AddEndpointsApiExplorer();
                 builder.Services.AddSwaggerGen(c =>
@@ -133,6 +121,21 @@ namespace UserService
 
 
                 var app = builder.Build();
+
+                using (var scope = app.Services.CreateScope())
+                {
+                    var db = scope.ServiceProvider.GetRequiredService<UserContext>();
+                    try
+                    {
+                        db.Database.Migrate();
+                        Console.WriteLine("Migration applied successfully.");
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"Database migration failed: {ex.Message}");
+                        throw; // Пробросьте ошибку, чтобы понять, в чем проблема
+                    }
+                }
 
                 // Настройка HTTP request pipeline
                 if (app.Environment.IsDevelopment())
@@ -176,7 +179,7 @@ namespace UserService
 
                 app.UseAuthentication(); 
                 app.UseAuthorization();  
-
+                
                 app.MapControllers();
 
                 app.Run();
