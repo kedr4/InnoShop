@@ -9,6 +9,8 @@ using UserService.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Azure.Core;
+using Microsoft.AspNetCore.Identity.Data;
 
 namespace UserService.Controllers
 {
@@ -76,7 +78,7 @@ namespace UserService.Controllers
             var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
             var confirmationLink = $"{Request.Scheme}://{Request.Host}/api/Account/confirm?userId={user.Id}&token={Uri.EscapeDataString(token)}";
             var subject = "Confirm your email";
-            var body = $"Hello {user.Name},<br><br>Please confirm your account by clicking <a href='{confirmationLink}'>here</a>.";
+            var body = $"Hello, {user.Name},<br><br>Please confirm your account by clicking <a href='{confirmationLink}'>here</a>.";
 
             // Отправка письма
             var emailSent = await _emailService.SendEmailAsync(user.Email, subject, body);
@@ -155,7 +157,81 @@ namespace UserService.Controllers
 
             return Ok(token);
         }
+
+
+      
+         [HttpPost("forgot-password")]
+         public async Task<ActionResult> ForgotPassword([FromBody] string email)
+         {
+             var user = await _userManager.FindByEmailAsync(email);
+             if (user == null)
+             {
+                 _logger.LogWarning("Password reset requested for non-existent email: {Email}", email);
+                 return BadRequest("No user found with that email address.");
+             }
+
+             var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+             _logger.LogInformation("Password reset token generated for user {UserId}: {Token}", user.Id, token);
+
+             var resetLink = $"{Request.Scheme}://{Request.Host}/api/Account/reset-password?userId={user.Id}&token={Uri.EscapeDataString(token)}";
+             var subject = "Reset your password";
+             var body = $"Hello, {user.Name},<br><br>Please reset your password by clicking <a href='{resetLink}'>here</a>.";
+
+             var emailSent = await _emailService.SendEmailAsync(user.Email, subject, body);
+             if (!emailSent)
+             {
+                 _logger.LogWarning("Failed to send password reset email to {Email}", user.Email);
+                 return StatusCode(500, "Error sending password reset email.");
+             }
+
+             _logger.LogInformation("Password reset email sent successfully to {Email}", user.Email);
+             return Ok("Password reset email sent successfully.");
+         }
+
+         [HttpPost("reset-password")]
+         public async Task<ActionResult> ResetPassword([FromBody] ResetPasswordRequest request)
+         {
+            if (request == null)
+            {
+                return BadRequest("Invalid request.");
+            }
+            var user = await _userManager.FindByIdAsync(request.UserId);
+             if (user == null)
+             {
+                 _logger.LogWarning("Password reset attempt with invalid user ID: {UserId}", request.UserId);
+                 return BadRequest("Invalid user.");
+             }
+
+             _logger.LogInformation("Attempting password reset for user {UserId} with token {Token}", request.UserId, request.Token);
+            // Проверка валидности токена
+            var isValidToken = await _userManager.VerifyUserTokenAsync(user, "Default", "ResetPassword", request.Token);
+            if (!isValidToken)
+            {
+                _logger.LogWarning("Password reset failed for user {UserId} due to invalid or expired token.", request.UserId);
+                return BadRequest("Invalid or expired token.");
+            }
+
+            var result = await _userManager.ResetPasswordAsync(user, request.Token, request.NewPassword);
+             if (!result.Succeeded)
+             {
+                 _logger.LogWarning("Password reset failed for user {UserId} due to invalid or expired token.", request.UserId);
+                 return BadRequest("Invalid or expired token.");
+             }
+
+             _logger.LogInformation("Password reset successfully for user {UserId}", user.Id);
+             return Ok("Password has been reset successfully!");
+         }
+        
     }
+
+    public class ResetPasswordRequest
+    {
+        public string UserId { get; set; }
+        public string Token { get; set; }
+        public string NewPassword { get; set; }
+    }
+
+
 
     public class UserManagerResponse
     {

@@ -79,7 +79,13 @@ namespace UserService
                     };
                 });
 
-
+                builder.Services.AddCors(options =>
+                {
+                    options.AddPolicy("AllowAll", builder =>
+                        builder.AllowAnyOrigin()
+                               .AllowAnyMethod()
+                               .AllowAnyHeader());
+                });
 
                 builder.Services.AddScoped<EmailService>();
 
@@ -151,6 +157,7 @@ namespace UserService
                 app.Use(async (context, next) =>
                 {
                     Log.Information("Received request: {Method} {Path}", context.Request.Method, context.Request.Path);
+                    Log.Information("Received request: {Method} {Path}", context.Request.Method, context.Request.Path);
 
                     // Логируем тело запроса
                     context.Request.EnableBuffering(); // Позволяет читать тело запроса несколько раз
@@ -176,8 +183,8 @@ namespace UserService
 
                     Log.Information("Response status code: {StatusCode}", context.Response.StatusCode);
                 });
-
-
+                app.UseCors("AllowAll");
+                app.UseStaticFiles();
                 app.UseAuthentication(); 
                 app.UseAuthorization();  
                 

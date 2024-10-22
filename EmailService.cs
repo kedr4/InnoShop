@@ -56,7 +56,7 @@ public class EmailService
             {
                 _logger.LogError(smtpEx, "Failed to establish SMTP connection.");
                 return false;
-            }
+            } 
 
             var mailMessage = new MailMessage
             {
