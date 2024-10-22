@@ -81,6 +81,7 @@ namespace UserService
 
 
 
+                builder.Services.AddScoped<EmailService>();
 
 
                 builder.Services.AddAuthorization();

@@ -7,7 +7,8 @@ using System.Text;
 using System.Threading.Tasks;
 using UserService.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.DotNet.Scaffolding.Shared.Messaging;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
 namespace UserService.Controllers
 {
@@ -20,18 +21,20 @@ namespace UserService.Controllers
         private readonly string _jwtSecret;
         private readonly string _issuer;
         private readonly string _audience;
-        private readonly ILogger<AccountController> _logger;   
+        private readonly ILogger<AccountController> _logger;
+        private readonly EmailService _emailService; 
+        private readonly UserManager<User> _userManager; 
 
-        public AccountController(UserContext context, IPasswordHasher<User> passwordHasher, IConfiguration configuration, ILogger<AccountController> logger)
+        public AccountController(UserContext context, IPasswordHasher<User> passwordHasher, IConfiguration configuration, ILogger<AccountController> logger, EmailService emailService, UserManager<User> userManager)
         {
             _context = context;
             _passwordHasher = passwordHasher;
-
-            // Загрузка конфигурации JWT из appsettings.json
             _jwtSecret = configuration["JwtSettings:Secret"];
             _issuer = configuration["JwtSettings:Issuer"];
             _audience = configuration["JwtSettings:Audience"];
             _logger = logger;
+            _emailService = emailService; 
+            _userManager = userManager; 
         }
 
         public class RegisterRequest
@@ -69,9 +72,40 @@ namespace UserService.Controllers
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
+            // Генерация токена подтверждения
+            var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            var confirmationLink = $"{Request.Scheme}://{Request.Host}/api/Account/confirm?userId={user.Id}&token={Uri.EscapeDataString(token)}";
+            var subject = "Confirm your email";
+            var body = $"Hello {user.Name},<br><br>Please confirm your account by clicking <a href='{confirmationLink}'>here</a>.";
+
+            // Отправка письма
+            var emailSent = await _emailService.SendEmailAsync(user.Email, subject, body);
+            if (!emailSent)
+            {
+                _logger.LogWarning($"Failed to send confirmation email to {user.Email}");
+                return StatusCode(500, "Error sending confirmation email.");
+            }
+
             return CreatedAtAction(nameof(Register), new { id = user.Id }, user);
         }
 
+        [HttpGet("confirm")]
+        public async Task<IActionResult> ConfirmEmail(string userId, string token)
+        {
+            var user = await _context.Users.FindAsync(userId);
+            if (user == null)
+            {
+                return BadRequest("Invalid user.");
+            }
+
+            var result = await _userManager.ConfirmEmailAsync(user, token);
+            if (!result.Succeeded)
+            {
+                return BadRequest("Invalid or expired token.");
+            }
+
+            return Ok("Email confirmed successfully!");
+        }
 
         // Аутентификация пользователя и генерация JWT токена
         [HttpPost("login")]
@@ -88,7 +122,7 @@ namespace UserService.Controllers
                 };
             }
 
-            // Check if the password is correct
+            // Проверка пароля
             var passwordVerificationResult = _passwordHasher.VerifyHashedPassword(user, user.PasswordHash, password);
             if (passwordVerificationResult == PasswordVerificationResult.Failed)
             {
@@ -106,9 +140,9 @@ namespace UserService.Controllers
             {
                 Subject = new ClaimsIdentity(new[]
                 {
-            new Claim(ClaimTypes.NameIdentifier, user.Id),
-            new Claim(ClaimTypes.Email, user.Email)
-        }),
+                    new Claim(ClaimTypes.NameIdentifier, user.Id),
+                    new Claim(ClaimTypes.Email, user.Email)
+                }),
                 Expires = DateTime.UtcNow.AddMinutes(60),
                 Issuer = _issuer,
                 Audience = _audience,
@@ -121,7 +155,6 @@ namespace UserService.Controllers
 
             return Ok(token);
         }
-
     }
 
     public class UserManagerResponse
@@ -129,5 +162,4 @@ namespace UserService.Controllers
         public string Message { get; set; }
         public bool IsSuccess { get; set; }
     }
-
 }
