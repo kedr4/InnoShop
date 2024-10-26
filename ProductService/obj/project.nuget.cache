@@ -1,0 +1,16 @@
+{
+  "version": 2,
+  "dgSpecHash": "azhPkEKaTc6ANxd792GZRCkD0oBiSGAoT9sgxZIi9tAWyyKMnX4oOs9Oit2rfSIVXoojOE8OG77r7g6Bbpv9ag==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Аndrew Kardychka\\Desktop\\Inno_Shop\\UserService\\ProductService\\ProductService.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Аndrew Kardychka\\.nuget\\packages\\microsoft.extensions.apidescription.server\\6.0.5\\microsoft.extensions.apidescription.server.6.0.5.nupkg.sha512",
+    "C:\\Users\\Аndrew Kardychka\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",
+    "C:\\Users\\Аndrew Kardychka\\.nuget\\packages\\microsoft.visualstudio.azure.containers.tools.targets\\1.19.6\\microsoft.visualstudio.azure.containers.tools.targets.1.19.6.nupkg.sha512",
+    "C:\\Users\\Аndrew Kardychka\\.nuget\\packages\\swashbuckle.aspnetcore\\6.4.0\\swashbuckle.aspnetcore.6.4.0.nupkg.sha512",
+    "C:\\Users\\Аndrew Kardychka\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\6.4.0\\swashbuckle.aspnetcore.swagger.6.4.0.nupkg.sha512",
+    "C:\\Users\\Аndrew Kardychka\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\6.4.0\\swashbuckle.aspnetcore.swaggergen.6.4.0.nupkg.sha512",
+    "C:\\Users\\Аndrew Kardychka\\.nuget\\packages\\swashbuckle.aspnetcore.swaggerui\\6.4.0\\swashbuckle.aspnetcore.swaggerui.6.4.0.nupkg.sha512"
+  ],
+  "logs": []
+}

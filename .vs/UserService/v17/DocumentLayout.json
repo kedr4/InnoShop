@@ -1,0 +1,256 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\\u0410ndrew Kardychka\\Desktop\\Inno_Shop\\UserService\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{E57674E5-E695-4846-A4DA-C5ADC09B9A98}|UserService.csproj|c:\\users\\\u0430ndrew kardychka\\desktop\\inno_shop\\userservice\\userservice.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{E57674E5-E695-4846-A4DA-C5ADC09B9A98}|UserService.csproj|solutionrelative:userservice.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E57674E5-E695-4846-A4DA-C5ADC09B9A98}|UserService.csproj|C:\\Users\\\u0410ndrew Kardychka\\Desktop\\Inno_Shop\\UserService\\.gitignore||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{E57674E5-E695-4846-A4DA-C5ADC09B9A98}|UserService.csproj|solutionrelative:.gitignore||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E57674E5-E695-4846-A4DA-C5ADC09B9A98}|UserService.csproj|C:\\Users\\\u0410ndrew Kardychka\\Desktop\\Inno_Shop\\UserService\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{E57674E5-E695-4846-A4DA-C5ADC09B9A98}|UserService.csproj|solutionrelative:appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E57674E5-E695-4846-A4DA-C5ADC09B9A98}|UserService.csproj|C:\\Users\\\u0410ndrew Kardychka\\Desktop\\Inno_Shop\\UserService\\models\\jwtsettings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E57674E5-E695-4846-A4DA-C5ADC09B9A98}|UserService.csproj|solutionrelative:models\\jwtsettings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E57674E5-E695-4846-A4DA-C5ADC09B9A98}|UserService.csproj|C:\\Users\\\u0410ndrew Kardychka\\Desktop\\Inno_Shop\\UserService\\models\\jwttokengenerator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E57674E5-E695-4846-A4DA-C5ADC09B9A98}|UserService.csproj|solutionrelative:models\\jwttokengenerator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E57674E5-E695-4846-A4DA-C5ADC09B9A98}|UserService.csproj|C:\\Users\\\u0410ndrew Kardychka\\Desktop\\Inno_Shop\\UserService\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E57674E5-E695-4846-A4DA-C5ADC09B9A98}|UserService.csproj|solutionrelative:controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E57674E5-E695-4846-A4DA-C5ADC09B9A98}|UserService.csproj|C:\\Users\\\u0410ndrew Kardychka\\Desktop\\Inno_Shop\\UserService\\controllers\\userscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E57674E5-E695-4846-A4DA-C5ADC09B9A98}|UserService.csproj|solutionrelative:controllers\\userscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E57674E5-E695-4846-A4DA-C5ADC09B9A98}|UserService.csproj|C:\\Users\\\u0410ndrew Kardychka\\Desktop\\Inno_Shop\\UserService\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E57674E5-E695-4846-A4DA-C5ADC09B9A98}|UserService.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E57674E5-E695-4846-A4DA-C5ADC09B9A98}|UserService.csproj|C:\\Users\\\u0410ndrew Kardychka\\Desktop\\Inno_Shop\\UserService\\emailservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E57674E5-E695-4846-A4DA-C5ADC09B9A98}|UserService.csproj|solutionrelative:emailservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E57674E5-E695-4846-A4DA-C5ADC09B9A98}|UserService.csproj|C:\\Users\\\u0410ndrew Kardychka\\Desktop\\Inno_Shop\\UserService\\userservice.http||{5703B403-55E7-4C63-8C88-A8F52C7A45C5}",
+      "RelativeMoniker": "D:0:0:{E57674E5-E695-4846-A4DA-C5ADC09B9A98}|UserService.csproj|solutionrelative:userservice.http||{5703B403-55E7-4C63-8C88-A8F52C7A45C5}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\\u0410ndrew Kardychka\\AppData\\Local\\Temp\\.vsdbgsrc\\9c945dacf8b9359c88c0baf4b5ad0399f8d18680ac8aac04142dc642f24b5eb9\\Program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E57674E5-E695-4846-A4DA-C5ADC09B9A98}|UserService.csproj|C:\\Users\\\u0410ndrew Kardychka\\Desktop\\Inno_Shop\\UserService\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E57674E5-E695-4846-A4DA-C5ADC09B9A98}|UserService.csproj|solutionrelative:models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E57674E5-E695-4846-A4DA-C5ADC09B9A98}|UserService.csproj|C:\\Users\\\u0410ndrew Kardychka\\Desktop\\Inno_Shop\\UserService\\models\\usercontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E57674E5-E695-4846-A4DA-C5ADC09B9A98}|UserService.csproj|solutionrelative:models\\usercontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 204,
+          "SelectedChildIndex": 6,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "AccountController.cs",
+              "DocumentMoniker": "C:\\Users\\\u0410ndrew Kardychka\\Desktop\\Inno_Shop\\UserService\\Controllers\\AccountController.cs",
+              "RelativeDocumentMoniker": "Controllers\\AccountController.cs",
+              "ToolTip": "C:\\Users\\\u0410ndrew Kardychka\\Desktop\\Inno_Shop\\UserService\\Controllers\\AccountController.cs",
+              "RelativeToolTip": "Controllers\\AccountController.cs",
+              "ViewState": "AQIAAKQAAAAAAAAAAAAAAKwAAABSAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-06T21:29:06.082Z",
+              "IsPinned": true
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "UsersController.cs",
+              "DocumentMoniker": "C:\\Users\\\u0410ndrew Kardychka\\Desktop\\Inno_Shop\\UserService\\Controllers\\UsersController.cs",
+              "RelativeDocumentMoniker": "Controllers\\UsersController.cs",
+              "ToolTip": "C:\\Users\\\u0410ndrew Kardychka\\Desktop\\Inno_Shop\\UserService\\Controllers\\UsersController.cs",
+              "RelativeToolTip": "Controllers\\UsersController.cs",
+              "ViewState": "AQIAAEMAAAAAAAAAAIBJwFkAAAAjAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-06T14:24:02.767Z",
+              "IsPinned": true
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:129:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:129:0:{75188d03-9892-4ae2-abf1-207126247ce5}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:130:0:{75188d03-9892-4ae2-abf1-207126247ce5}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "UserService.csproj",
+              "DocumentMoniker": "C:\\Users\\\u0410ndrew Kardychka\\Desktop\\Inno_Shop\\UserService\\UserService.csproj",
+              "RelativeDocumentMoniker": "UserService.csproj",
+              "ToolTip": "C:\\Users\\\u0410ndrew Kardychka\\Desktop\\Inno_Shop\\UserService\\UserService.csproj",
+              "RelativeToolTip": "UserService.csproj",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2024-10-26T21:16:02.686Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\\u0410ndrew Kardychka\\AppData\\Local\\Temp\\.vsdbgsrc\\9c945dacf8b9359c88c0baf4b5ad0399f8d18680ac8aac04142dc642f24b5eb9\\Program.cs",
+              "RelativeDocumentMoniker": "..\\..\\..\\AppData\\Local\\Temp\\.vsdbgsrc\\9c945dacf8b9359c88c0baf4b5ad0399f8d18680ac8aac04142dc642f24b5eb9\\Program.cs",
+              "ToolTip": "C:\\Users\\\u0410ndrew Kardychka\\AppData\\Local\\Temp\\.vsdbgsrc\\9c945dacf8b9359c88c0baf4b5ad0399f8d18680ac8aac04142dc642f24b5eb9\\Program.cs [\u0422\u043E\u043B\u044C\u043A\u043E \u0447\u0442\u0435\u043D\u0438\u0435]",
+              "RelativeToolTip": "..\\..\\..\\AppData\\Local\\Temp\\.vsdbgsrc\\9c945dacf8b9359c88c0baf4b5ad0399f8d18680ac8aac04142dc642f24b5eb9\\Program.cs [\u0422\u043E\u043B\u044C\u043A\u043E \u0447\u0442\u0435\u043D\u0438\u0435]",
+              "ViewState": "AQIAAIkAAAAAAAAAAIBJwJYAAAADAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-22T22:14:50.142Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "JwtTokenGenerator.cs",
+              "DocumentMoniker": "C:\\Users\\\u0410ndrew Kardychka\\Desktop\\Inno_Shop\\UserService\\Models\\JwtTokenGenerator.cs",
+              "RelativeDocumentMoniker": "Models\\JwtTokenGenerator.cs",
+              "ToolTip": "C:\\Users\\\u0410ndrew Kardychka\\Desktop\\Inno_Shop\\UserService\\Models\\JwtTokenGenerator.cs",
+              "RelativeToolTip": "Models\\JwtTokenGenerator.cs",
+              "ViewState": "AQIAAAsAAAAAAAAAAAAiwCIAAAAXAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-22T22:12:17.303Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "UserService.http",
+              "DocumentMoniker": "C:\\Users\\\u0410ndrew Kardychka\\Desktop\\Inno_Shop\\UserService\\UserService.http",
+              "RelativeDocumentMoniker": "UserService.http",
+              "ToolTip": "C:\\Users\\\u0410ndrew Kardychka\\Desktop\\Inno_Shop\\UserService\\UserService.http",
+              "RelativeToolTip": "UserService.http",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003502|",
+              "WhenOpened": "2024-10-22T22:05:20.509Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "EmailService.cs",
+              "DocumentMoniker": "C:\\Users\\\u0410ndrew Kardychka\\Desktop\\Inno_Shop\\UserService\\EmailService.cs",
+              "RelativeDocumentMoniker": "EmailService.cs",
+              "ToolTip": "C:\\Users\\\u0410ndrew Kardychka\\Desktop\\Inno_Shop\\UserService\\EmailService.cs",
+              "RelativeToolTip": "EmailService.cs",
+              "ViewState": "AQIAADEAAAAAAAAAAAAiwEwAAAAZAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-22T09:42:36.858Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": ".gitignore",
+              "DocumentMoniker": "C:\\Users\\\u0410ndrew Kardychka\\Desktop\\Inno_Shop\\UserService\\.gitignore",
+              "RelativeDocumentMoniker": ".gitignore",
+              "ToolTip": "C:\\Users\\\u0410ndrew Kardychka\\Desktop\\Inno_Shop\\UserService\\.gitignore",
+              "RelativeToolTip": ".gitignore",
+              "ViewState": "AQIAAEEBAAAAAAAAAAAMwEgBAAAWAAAA",
+              "Icon": "00000000-0000-0000-0000-000000000000.000000|iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAF8SURBVDhPjVNLTgJBEG1lwpoFB3GNK9fieA48hD8iwT/ihwgSDAIHgAGXXsEV18CNzL/LquqZdsYM6kteXqcy3fWqpmpNRBgOhyABBEgpAFVKPIMUcYzUyOU\u002BXM/b2qtU3vkSfRjjZTCAMAw1A2LwzdFoBPP5HNqdzuL27n4juibWI\u002BUshBA1DIkhEx9iEorFotgslQqGYbxxAGFEqt1MxmPWJLbLZdZ\u002Bv89q5PMFPiTR6z2zdaxR0fXA0XTBcVywkb4fwHXjRteecIDNQ7UmExVYAdPcxYaqclN46na5WenMKjtlVnTYwcXlVYaDqImW9beD5N/TeGy32QHXm6hZ03ZgiSQHp2fnWQ4oBmJqWSqwAqZpZjt4aLXAD4J0VqyZsmoubfB8H2r1eoaD6NXZ9HcHO\u002BSA3f4AjifXl8rItOETM8ckB9WTWpYD9RdeZ1PWVWAHWXPQaDb59f/w8LiqHeh1pvGkCaP6qB8yXusoxmuNZ7XmII4O9vGuEF86osuDYRkpYQAAAABJRU5ErkJggg==",
+              "WhenOpened": "2024-10-08T20:35:35.099Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "JwtSettings.cs",
+              "DocumentMoniker": "C:\\Users\\\u0410ndrew Kardychka\\Desktop\\Inno_Shop\\UserService\\Models\\JwtSettings.cs",
+              "RelativeDocumentMoniker": "Models\\JwtSettings.cs",
+              "ToolTip": "C:\\Users\\\u0410ndrew Kardychka\\Desktop\\Inno_Shop\\UserService\\Models\\JwtSettings.cs",
+              "RelativeToolTip": "Models\\JwtSettings.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAwAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-06T21:18:49.526Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\\u0410ndrew Kardychka\\Desktop\\Inno_Shop\\UserService\\appsettings.json",
+              "RelativeDocumentMoniker": "appsettings.json",
+              "ToolTip": "C:\\Users\\\u0410ndrew Kardychka\\Desktop\\Inno_Shop\\UserService\\appsettings.json",
+              "RelativeToolTip": "appsettings.json",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABsAAAADAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-10-06T21:04:31.243Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "UserContext.cs",
+              "DocumentMoniker": "C:\\Users\\\u0410ndrew Kardychka\\Desktop\\Inno_Shop\\UserService\\Models\\UserContext.cs",
+              "RelativeDocumentMoniker": "Models\\UserContext.cs",
+              "ToolTip": "C:\\Users\\\u0410ndrew Kardychka\\Desktop\\Inno_Shop\\UserService\\Models\\UserContext.cs",
+              "RelativeToolTip": "Models\\UserContext.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAAAJAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-06T13:54:24.676Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "User.cs",
+              "DocumentMoniker": "C:\\Users\\\u0410ndrew Kardychka\\Desktop\\Inno_Shop\\UserService\\Models\\User.cs",
+              "RelativeDocumentMoniker": "Models\\User.cs",
+              "ToolTip": "C:\\Users\\\u0410ndrew Kardychka\\Desktop\\Inno_Shop\\UserService\\Models\\User.cs",
+              "RelativeToolTip": "Models\\User.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAsAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-05T23:31:49.546Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\\u0410ndrew Kardychka\\Desktop\\Inno_Shop\\UserService\\Program.cs",
+              "RelativeDocumentMoniker": "Program.cs",
+              "ToolTip": "C:\\Users\\\u0410ndrew Kardychka\\Desktop\\Inno_Shop\\UserService\\Program.cs",
+              "RelativeToolTip": "Program.cs",
+              "ViewState": "AQIAAIsAAAAAAAAAAAAiwMQAAAA9AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-04T22:57:24.371Z"
+            }
+          ]
+        },
+        {
+          "DockedWidth": 196,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{eefa5220-e298-11d0-8f78-00a0c9110057}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
