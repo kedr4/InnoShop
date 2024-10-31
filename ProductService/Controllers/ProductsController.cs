@@ -1,15 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProductService.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace ProductService.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    
     public class ProductsController : ControllerBase
     {
         private readonly ProductContext _context;
@@ -21,6 +23,7 @@ namespace ProductService.Controllers
 
         // POST: api/Products
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<Product>> CreateProduct([FromBody] Product product)
         {
             if (product == null || string.IsNullOrWhiteSpace(product.Name))
@@ -28,8 +31,7 @@ namespace ProductService.Controllers
                 return BadRequest("Название продукта не может быть пустым.");
             }
 
-            // Присваиваем новый ID и устанавливаем время создания
-            product.CreatedAt = DateTime.UtcNow; // Устанавливаем время создания
+            product.CreatedAt = DateTime.UtcNow;
             _context.Products.Add(product);
             await _context.SaveChangesAsync();
 
@@ -59,6 +61,7 @@ namespace ProductService.Controllers
 
         // PUT: api/Products/5
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<IActionResult> UpdateProduct(int id, [FromBody] Product updatedProduct)
         {
             if (updatedProduct == null || string.IsNullOrWhiteSpace(updatedProduct.Name))
@@ -77,7 +80,6 @@ namespace ProductService.Controllers
                 return NotFound("Продукт не найден.");
             }
 
-            // Обновляем свойства продукта
             existingProduct.Name = updatedProduct.Name;
             existingProduct.Description = updatedProduct.Description;
             existingProduct.Price = updatedProduct.Price;
@@ -101,6 +103,7 @@ namespace ProductService.Controllers
 
         // DELETE: api/Products/5
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> DeleteProduct(int id)
         {
             var product = await _context.Products.FindAsync(id);

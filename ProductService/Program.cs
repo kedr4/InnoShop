@@ -1,10 +1,9 @@
 using Microsoft.EntityFrameworkCore;
-using ProductService.Models; 
+using ProductService.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.OpenApi.Models;
-using Serilog;
 
 namespace ProductService
 {
@@ -12,89 +11,95 @@ namespace ProductService
     {
         public static void Main(string[] args)
         {
-            try
+            var builder = WebApplication.CreateBuilder(args);
+            IConfiguration config = builder.Configuration;
+
+            // Загрузка настроек JWT из appsettings.json
+            var jwtSettings = builder.Configuration.GetSection("JwtSettings");
+            var key = jwtSettings["Secret"];
+            var issuer = jwtSettings["Issuer"];
+            var audience = jwtSettings["Audience"];
+
+            builder.Services.AddDbContext<ProductContext>(options =>
+                options.UseInMemoryDatabase("ProductDatabase"));
+
+            builder.Services.AddCors(options =>
             {
-                Log.Information("Starting ProductService web host");
-                var builder = WebApplication.CreateBuilder(args);
-                IConfiguration config = builder.Configuration;
+                options.AddPolicy("AllowAll", policy =>
+                    policy.AllowAnyOrigin()
+                          .AllowAnyMethod()
+                          .AllowAnyHeader());
+            });
 
-                
-
-                // Настройка SQL Server
-                //      builder.Services.AddDbContext<ProductContext>(options =>
-                //         options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-
-
-                builder.Services.AddDbContext<ProductContext>(options =>
-                   options.UseInMemoryDatabase("ProductDatabase"));
-               
-
-                builder.Services.AddCors(options =>
+            // Настройка аутентификации с JWT
+            builder.Services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+                .AddJwtBearer(options =>
                 {
-                    options.AddPolicy("AllowAll", builder =>
-                        builder.AllowAnyOrigin()
-                               .AllowAnyMethod()
-                               .AllowAnyHeader());
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = issuer,
+                        ValidAudience = audience,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key))
+                    };
                 });
 
-                // Добавление сервисов в контейнер
-                builder.Services.AddControllers();
+            builder.Services.AddControllers();
 
-                // Настройка Swagger
-                builder.Services.AddEndpointsApiExplorer();
-                builder.Services.AddSwaggerGen(c =>
+            builder.Services.AddEndpointsApiExplorer();
+            builder.Services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "ProductService", Version = "v1" });
+
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
-                    c.SwaggerDoc("v1", new OpenApiInfo { Title = "ProductService", Version = "v1" });
+                    In = ParameterLocation.Header,
+                    Description = "Введите 'Bearer' [пробел] и ваш токен в поле ниже. \r\n\r\nПример: \"Bearer 12345abcdef\"",
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.ApiKey
+                });
 
-                    // Добавление схемы безопасности для JWT
-                    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
                     {
-                        In = ParameterLocation.Header,
-                        Description = "Введите 'Bearer' [пробел] и ваш токен в поле ниже. \r\n\r\nПример: \"Bearer 12345abcdef\"",
-                        Name = "Authorization",
-                        Type = SecuritySchemeType.ApiKey
-                    });
-
-                    c.AddSecurityRequirement(new OpenApiSecurityRequirement
-                    {
+                        new OpenApiSecurityScheme
                         {
-                            new OpenApiSecurityScheme
+                            Reference = new OpenApiReference
                             {
-                                Reference = new OpenApiReference
-                                {
-                                    Type = ReferenceType.SecurityScheme,
-                                    Id = "Bearer"
-                                }
-                            },
-                            new string[] {}
-                        }
-                    });
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            }
+                        },
+                        new string[] {}
+                    }
                 });
+            });
 
-                var app = builder.Build();
+            var app = builder.Build();
 
-                if (app.Environment.IsDevelopment())
-                {
-                    app.UseSwagger();
-                    app.UseSwaggerUI();
-                }
-
-                app.UseHttpsRedirection();
-                app.UseCors("AllowAll");
-                app.UseAuthentication();
-                app.UseAuthorization();
-                app.MapControllers();
-
-                app.Run();
-            }
-            catch (Exception ex)
+            if (app.Environment.IsDevelopment())
             {
-                Log.Fatal(ex, "Application start-up failed");
+                app.UseSwagger();
+                app.UseSwaggerUI();
             }
-            finally
-            {
-                Log.CloseAndFlush();
-            }
+
+            app.UseHttpsRedirection();
+            app.UseCors("AllowAll");
+
+            app.UseAuthentication();
+            app.UseAuthorization();
+
+            app.MapControllers();
+
+            app.Run();
         }
     }
 }
