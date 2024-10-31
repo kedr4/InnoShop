@@ -14,14 +14,14 @@ namespace ProductService
             var builder = WebApplication.CreateBuilder(args);
             IConfiguration config = builder.Configuration;
 
-            // Загрузка настроек JWT из appsettings.json
             var jwtSettings = builder.Configuration.GetSection("JwtSettings");
             var key = jwtSettings["Secret"];
             var issuer = jwtSettings["Issuer"];
             var audience = jwtSettings["Audience"];
 
+            
             builder.Services.AddDbContext<ProductContext>(options =>
-                options.UseInMemoryDatabase("ProductDatabase"));
+            options.UseSqlServer(config.GetConnectionString("DefaultConnection")));
 
             builder.Services.AddCors(options =>
             {
@@ -31,7 +31,6 @@ namespace ProductService
                           .AllowAnyHeader());
             });
 
-            // Настройка аутентификации с JWT
             builder.Services.AddAuthentication(x =>
             {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;

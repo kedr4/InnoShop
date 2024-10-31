@@ -8,8 +8,8 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "product",
-        "Type": "ProductService.Models.Product",
+        "Name": "productDto",
+        "Type": "ProductService.Controllers.ProductsController\u002BProductCreateDto",
         "IsRequired": true
       }
     ],
@@ -85,8 +85,8 @@
         "IsRequired": true
       },
       {
-        "Name": "updatedProduct",
-        "Type": "ProductService.Models.Product",
+        "Name": "updatedProductDto",
+        "Type": "ProductService.Controllers.ProductsController\u002BProductUpdateDto",
         "IsRequired": true
       }
     ],

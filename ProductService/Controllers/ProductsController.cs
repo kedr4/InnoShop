@@ -5,6 +5,7 @@ using ProductService.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace ProductService.Controllers
@@ -24,19 +25,39 @@ namespace ProductService.Controllers
         // POST: api/Products
         [HttpPost]
         [Authorize]
-        public async Task<ActionResult<Product>> CreateProduct([FromBody] Product product)
+        public async Task<ActionResult<Product>> CreateProduct([FromBody] ProductCreateDto productDto)
         {
-            if (product == null || string.IsNullOrWhiteSpace(product.Name))
+            if (productDto == null || string.IsNullOrWhiteSpace(productDto.Name))
             {
                 return BadRequest("Название продукта не может быть пустым.");
             }
 
-            product.CreatedAt = DateTime.UtcNow;
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+            if (userIdClaim == null)
+            {
+                return Unauthorized("Пользователь не авторизован.");
+            }
+
+            string userId = userIdClaim.Value;
+
+            var product = new Product
+            {
+                Name = productDto.Name,
+                Description = productDto.Description,
+                Price = productDto.Price,
+                IsAvailable = productDto.IsAvailable,
+                Quantity = productDto.Quantity, 
+                UserId = userId, 
+                CreatedAt = DateTime.UtcNow
+            };
+
             _context.Products.Add(product);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction(nameof(GetProductById), new { id = product.Id }, product);
         }
+
+
 
         // GET: api/Products
         [HttpGet]
@@ -62,16 +83,11 @@ namespace ProductService.Controllers
         // PUT: api/Products/5
         [HttpPut("{id}")]
         [Authorize]
-        public async Task<IActionResult> UpdateProduct(int id, [FromBody] Product updatedProduct)
+        public async Task<IActionResult> UpdateProduct(int id, [FromBody] ProductUpdateDto updatedProductDto)
         {
-            if (updatedProduct == null || string.IsNullOrWhiteSpace(updatedProduct.Name))
+            if (updatedProductDto == null)
             {
-                return BadRequest("Название продукта не может быть пустым.");
-            }
-
-            if (id != updatedProduct.Id)
-            {
-                return BadRequest("ID продукта не совпадает.");
+                return BadRequest("Данные продукта не могут быть пустыми.");
             }
 
             var existingProduct = await _context.Products.FindAsync(id);
@@ -80,11 +96,29 @@ namespace ProductService.Controllers
                 return NotFound("Продукт не найден.");
             }
 
-            existingProduct.Name = updatedProduct.Name;
-            existingProduct.Description = updatedProduct.Description;
-            existingProduct.Price = updatedProduct.Price;
-            existingProduct.IsAvailable = updatedProduct.IsAvailable;
+            if (!string.IsNullOrWhiteSpace(updatedProductDto.Name))
+            {
+                existingProduct.Name = updatedProductDto.Name;
+            }
 
+            if (!string.IsNullOrWhiteSpace(updatedProductDto.Description))
+            {
+                existingProduct.Description = updatedProductDto.Description;
+            }
+
+            if (updatedProductDto.Price.HasValue)
+            {
+                existingProduct.Price = updatedProductDto.Price.Value;
+            }
+
+            if (updatedProductDto.IsAvailable.HasValue)
+            {
+                existingProduct.IsAvailable = updatedProductDto.IsAvailable.Value;
+            }
+            if (updatedProductDto.Quantity.HasValue)
+            {
+                existingProduct.Quantity = updatedProductDto.Quantity.Value;
+            }
             try
             {
                 await _context.SaveChangesAsync();
@@ -117,6 +151,23 @@ namespace ProductService.Controllers
             await _context.SaveChangesAsync();
 
             return NoContent();
+        }
+        public class ProductUpdateDto
+        {
+            public string Name { get; set; }
+            public string Description { get; set; }
+            public decimal? Price { get; set; }
+            public bool? IsAvailable { get; set; }
+            public int? Quantity { get; set; }
+        }
+
+        public class ProductCreateDto
+        {
+            public string Name { get; set; }
+            public string Description { get; set; }
+            public decimal Price { get; set; } 
+            public bool IsAvailable { get; set; }
+            public int Quantity { get; set; }
         }
 
         private bool ProductExists(int id)
