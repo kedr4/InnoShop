@@ -99,6 +99,39 @@ namespace ProductService.Controllers
             return await _context.Products.ToListAsync();
         }
 
+        // GET: api/Products/filter
+        [HttpGet("filter")]
+        public async Task<ActionResult<IEnumerable<Product>>> FilterProducts(
+            string? name = null,
+            decimal? minPrice = null,
+            decimal? maxPrice = null,
+            bool? isAvailable = null)
+        {
+            var query = _context.Products.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(name))
+            {
+                query = query.Where(p => p.Name.Contains(name));
+            }
+
+            if (minPrice.HasValue)
+            {
+                query = query.Where(p => p.Price >= minPrice.Value);
+            }
+
+            if (maxPrice.HasValue)
+            {
+                query = query.Where(p => p.Price <= maxPrice.Value);
+            }
+
+            if (isAvailable.HasValue)
+            {
+                query = query.Where(p => p.IsAvailable == isAvailable.Value);
+            }
+
+            return await query.ToListAsync();
+        }
+
         // GET: api/Products/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Product>> GetProductById(int id)
