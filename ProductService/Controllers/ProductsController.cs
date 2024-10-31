@@ -50,6 +50,21 @@ namespace ProductService.Controllers
                 return BadRequest("Название продукта не может быть пустым.");
             }
 
+            if (string.IsNullOrWhiteSpace(productDto.Description))
+            {
+                return BadRequest("Описание продукта не может быть пустым.");
+            }
+
+            if (productDto.Price<0)
+            {
+                return BadRequest("Стоимость продукта не может быть отрицательной.");
+            }
+
+            if (productDto.Quantity < 0)
+            {
+                return BadRequest("Количество продукта не может быть отрицательным.");
+            }
+
             var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
             if (userIdClaim == null)
             {

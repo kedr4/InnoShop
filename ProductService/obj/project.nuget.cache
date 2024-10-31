@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "chweJ1JpS8FBKlHZop/QnNenfHPWXWrwe1Wd9byJBRh08HGKs6QJKSz14dXq9Vo2GpDXJUEToFYyRVmJz2KnCg==",
+  "dgSpecHash": "HBCrAPipyaPHSKu6BqHZGkvdlgUm7l3dbkeQrSBEu+RNO16DG6FKvQJM4mSInRFw2yZ+9NWnwgiht9fznYCDrw==",
   "success": true,
   "projectFilePath": "C:\\Users\\Аndrew Kardychka\\Desktop\\Inno_Shop\\UserService\\ProductService\\ProductService.csproj",
   "expectedPackageFiles": [
@@ -8,6 +8,8 @@
     "C:\\Users\\Аndrew Kardychka\\.nuget\\packages\\azure.identity\\1.10.3\\azure.identity.1.10.3.nupkg.sha512",
     "C:\\Users\\Аndrew Kardychka\\.nuget\\packages\\entityframework\\6.5.1\\entityframework.6.5.1.nupkg.sha512",
     "C:\\Users\\Аndrew Kardychka\\.nuget\\packages\\fluentvalidation\\11.10.0\\fluentvalidation.11.10.0.nupkg.sha512",
+    "C:\\Users\\Аndrew Kardychka\\.nuget\\packages\\fluentvalidation.aspnetcore\\11.3.0\\fluentvalidation.aspnetcore.11.3.0.nupkg.sha512",
+    "C:\\Users\\Аndrew Kardychka\\.nuget\\packages\\fluentvalidation.dependencyinjectionextensions\\11.5.1\\fluentvalidation.dependencyinjectionextensions.11.5.1.nupkg.sha512",
     "C:\\Users\\Аndrew Kardychka\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\Аndrew Kardychka\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\8.0.10\\microsoft.aspnetcore.authentication.jwtbearer.8.0.10.nupkg.sha512",
     "C:\\Users\\Аndrew Kardychka\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\6.0.0\\microsoft.bcl.asyncinterfaces.6.0.0.nupkg.sha512",
