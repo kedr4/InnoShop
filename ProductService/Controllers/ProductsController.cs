@@ -22,6 +22,24 @@ namespace ProductService.Controllers
             _context = context;
         }
 
+        public class ProductUpdateDto
+        {
+            public string Name { get; set; }
+            public string Description { get; set; }
+            public decimal? Price { get; set; }
+            public bool? IsAvailable { get; set; }
+            public int? Quantity { get; set; }
+        }
+
+        public class ProductCreateDto
+        {
+            public string Name { get; set; }
+            public string Description { get; set; }
+            public decimal Price { get; set; }
+            public bool IsAvailable { get; set; }
+            public int Quantity { get; set; }
+        }
+
         // POST: api/Products
         [HttpPost]
         [Authorize]
@@ -96,6 +114,11 @@ namespace ProductService.Controllers
                 return NotFound("Продукт не найден.");
             }
 
+            if (!IsProductOwner(existingProduct))
+            {
+                return StatusCode(403, "Вы не можете редактировать этот товар.");
+            }
+
             if (!string.IsNullOrWhiteSpace(updatedProductDto.Name))
             {
                 existingProduct.Name = updatedProductDto.Name;
@@ -147,27 +170,20 @@ namespace ProductService.Controllers
                 return NotFound();
             }
 
+            if (!IsProductOwner(product))
+            {
+                return StatusCode(403, "Вы не можете редактировать этот товар.");
+            }
             _context.Products.Remove(product);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
-        public class ProductUpdateDto
+       
+        private bool IsProductOwner(Product product)
         {
-            public string Name { get; set; }
-            public string Description { get; set; }
-            public decimal? Price { get; set; }
-            public bool? IsAvailable { get; set; }
-            public int? Quantity { get; set; }
-        }
-
-        public class ProductCreateDto
-        {
-            public string Name { get; set; }
-            public string Description { get; set; }
-            public decimal Price { get; set; } 
-            public bool IsAvailable { get; set; }
-            public int Quantity { get; set; }
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+            return userIdClaim != null && product.UserId == userIdClaim.Value;
         }
 
         private bool ProductExists(int id)
