@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProductService.Models;
+using ProductService.Validators;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,24 +46,9 @@ namespace ProductService.Controllers
         [Authorize]
         public async Task<ActionResult<Product>> CreateProduct([FromBody] ProductCreateDto productDto)
         {
-            if (productDto == null || string.IsNullOrWhiteSpace(productDto.Name))
+            if (!ModelState.IsValid)
             {
-                return BadRequest("Название продукта не может быть пустым.");
-            }
-
-            if (string.IsNullOrWhiteSpace(productDto.Description))
-            {
-                return BadRequest("Описание продукта не может быть пустым.");
-            }
-
-            if (productDto.Price<0)
-            {
-                return BadRequest("Стоимость продукта не может быть отрицательной.");
-            }
-
-            if (productDto.Quantity < 0)
-            {
-                return BadRequest("Количество продукта не может быть отрицательным.");
+                return BadRequest(ModelState); 
             }
 
             var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
@@ -79,8 +65,8 @@ namespace ProductService.Controllers
                 Description = productDto.Description,
                 Price = productDto.Price,
                 IsAvailable = productDto.IsAvailable,
-                Quantity = productDto.Quantity, 
-                UserId = userId, 
+                Quantity = productDto.Quantity,
+                UserId = userId,
                 CreatedAt = DateTime.UtcNow
             };
 
@@ -151,9 +137,12 @@ namespace ProductService.Controllers
         [Authorize]
         public async Task<IActionResult> UpdateProduct(int id, [FromBody] ProductUpdateDto updatedProductDto)
         {
-            if (updatedProductDto == null)
+            var validator = new ProductUpdateValidator();
+            var validationResult = await validator.ValidateAsync(updatedProductDto);
+
+            if (!validationResult.IsValid)
             {
-                return BadRequest("Данные продукта не могут быть пустыми.");
+                return BadRequest(validationResult.Errors);
             }
 
             var existingProduct = await _context.Products.FindAsync(id);
@@ -186,10 +175,12 @@ namespace ProductService.Controllers
             {
                 existingProduct.IsAvailable = updatedProductDto.IsAvailable.Value;
             }
+
             if (updatedProductDto.Quantity.HasValue)
             {
                 existingProduct.Quantity = updatedProductDto.Quantity.Value;
             }
+
             try
             {
                 await _context.SaveChangesAsync();

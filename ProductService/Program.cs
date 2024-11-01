@@ -4,6 +4,9 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.OpenApi.Models;
+using ProductService.Validators;
+using FluentValidation.AspNetCore;
+using static ProductService.Controllers.ProductsController;
 
 namespace ProductService
 {
@@ -51,7 +54,13 @@ namespace ProductService
                     };
                 });
 
-            builder.Services.AddControllers();
+            builder.Services.AddControllers()
+             .AddFluentValidation(fv =>
+             {
+                 fv.RegisterValidatorsFromAssemblyContaining<ProductCreateValidator>();
+                 fv.RegisterValidatorsFromAssemblyContaining<ProductUpdateValidator>();
+             });
+
 
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen(c =>
