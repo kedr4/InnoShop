@@ -1,15 +1,15 @@
 [
   {
     "ContainingType": "ProductService.Controllers.ProductsController",
-    "Method": "CreateProduct",
-    "RelativePath": "api/Products",
+    "Method": "CreateProductAsync",
+    "RelativePath": "api/products",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "productDto",
-        "Type": "ProductService.Controllers.ProductsController\u002BProductCreateDto",
+        "Name": "request",
+        "Type": "ProductService.Api.Controllers.Products.Requests.CreateProductRequest",
         "IsRequired": true
       }
     ],
@@ -27,15 +27,15 @@
   },
   {
     "ContainingType": "ProductService.Controllers.ProductsController",
-    "Method": "GetAllProducts",
-    "RelativePath": "api/Products",
+    "Method": "GetProductsAsync",
+    "RelativePath": "api/products",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[ProductService.Models.Product, ProductService, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[ProductService.Models.Product, ProductService.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -47,8 +47,8 @@
   },
   {
     "ContainingType": "ProductService.Controllers.ProductsController",
-    "Method": "GetProductById",
-    "RelativePath": "api/Products/{id}",
+    "Method": "GetProductByIdAsync",
+    "RelativePath": "api/products/{id}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -73,8 +73,8 @@
   },
   {
     "ContainingType": "ProductService.Controllers.ProductsController",
-    "Method": "UpdateProduct",
-    "RelativePath": "api/Products/{id}",
+    "Method": "UpdateProductAsync",
+    "RelativePath": "api/products/{id}",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
@@ -85,8 +85,8 @@
         "IsRequired": true
       },
       {
-        "Name": "updatedProductDto",
-        "Type": "ProductService.Controllers.ProductsController\u002BProductUpdateDto",
+        "Name": "request",
+        "Type": "ProductService.Api.Controllers.Products.Requests.UpdateProductRequest",
         "IsRequired": true
       }
     ],
@@ -94,8 +94,8 @@
   },
   {
     "ContainingType": "ProductService.Controllers.ProductsController",
-    "Method": "DeleteProduct",
-    "RelativePath": "api/Products/{id}",
+    "Method": "DeleteProductAsync",
+    "RelativePath": "api/products/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
@@ -110,8 +110,8 @@
   },
   {
     "ContainingType": "ProductService.Controllers.ProductsController",
-    "Method": "FilterProducts",
-    "RelativePath": "api/Products/filter",
+    "Method": "GetProductsByFilterAsync",
+    "RelativePath": "api/products/filter",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -135,11 +135,16 @@
         "Name": "isAvailable",
         "Type": "System.Nullable\u00601[[System.Boolean, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
         "IsRequired": false
+      },
+      {
+        "Name": "quantity",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[ProductService.Models.Product, ProductService, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[ProductService.Models.Product, ProductService.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",

@@ -21,7 +21,7 @@ namespace UserService.Tests.Controllers
                 .Options;
 
             _context = new UserContext(options); 
-            _controller = new UsersController(_context); 
+           // _controller = new UsersController(_context); //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         }
 
         [Fact]

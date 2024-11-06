@@ -1,6 +1,6 @@
 ﻿using FluentValidation.Results;
+using ProductService.Api.Controllers.Products.Validators;
 using ProductService.Models;
-using ProductService.Validators;
 using Xunit;
 using static ProductService.Controllers.ProductsController;
 

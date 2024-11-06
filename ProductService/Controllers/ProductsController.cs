@@ -1,233 +1,141 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Azure;
+using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using ProductService.Api.Controllers.Products.Requests;
+using ProductService.Application.Products.Commands.Create;
+using ProductService.Application.Products.Commands.Delete;
+using ProductService.Application.Products.Commands.Update;
+using ProductService.Application.Products.Querys;
 using ProductService.Models;
-using ProductService.Validators;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.WebSockets;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
+
 namespace ProductService.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
-    
+    //[Authorize]
+    [Route("api/products")]
     public class ProductsController : ControllerBase
     {
-        private readonly ProductContext _context;
+        private readonly IMediator _mediator;
 
-        public ProductsController(ProductContext context)
+        public ProductsController(IMediator mediator)
         {
-            _context = context;
+            _mediator = mediator;
         }
 
-        public class ProductUpdateDto
-        {
-            public string Name { get; set; }
-            public string Description { get; set; }
-            public decimal? Price { get; set; }
-            public bool? IsAvailable { get; set; }
-            public int? Quantity { get; set; }
-        }
 
-        public class ProductCreateDto
-        {
-            public string Name { get; set; }
-            public string Description { get; set; }
-            public decimal Price { get; set; }
-            public bool IsAvailable { get; set; }
-            public int Quantity { get; set; }
-        }
 
         // POST: api/Products
         [HttpPost]
-        [Authorize]
-        public async Task<ActionResult<Product>> CreateProduct([FromBody] ProductCreateDto productDto)
+        public async Task<ActionResult<Product>> CreateProductAsync([FromBody] CreateProductRequest request)
         {
-            if (!ModelState.IsValid)
+            
+            var cmd = new CreateProductCommand()
+            
             {
-                return BadRequest(ModelState); 
-            }
+                Product = new Product()
+                {
+                    Name = request.Name,
+                    Description = request.Description,
+                    Price = request.Price,
+                    IsAvailable = request.IsAvailable,
+                    Quantity = request.Quantity,
+                    CreatedAt = DateTime.UtcNow
+                }
+            };
+            var id = await _mediator.Send(cmd);
+            
+           
+            return Ok(id);
+        }
 
-            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
-            if (userIdClaim == null)
+        
+        // GET: api/products
+        [HttpGet]
+        public async Task<ActionResult<List<Product>>> GetProductsAsync()
+        {
+            var query = new GetProductsQuery();
+            var products = await _mediator.Send(query);
+            return Ok(products);
+        }
+
+        // GET: api/products/{id}
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Product>> GetProductByIdAsync(int id)
+        {
+            var query = new GetProductByIdQuery { Id = id };
+            var product = await _mediator.Send(query);
+
+            if (product == null)
+                return NotFound();
+
+            return Ok(product);
+        }
+        
+
+        // PUT: api/products/{id}
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateProductAsync(int id, [FromBody] UpdateProductRequest request)
+        {
+            var cmd = new UpdateProductCommand
             {
-                return Unauthorized("Пользователь не авторизован.");
-            }
-
-            string userId = userIdClaim.Value;
-
-            var product = new Product
-            {
-                Name = productDto.Name,
-                Description = productDto.Description,
-                Price = productDto.Price,
-                IsAvailable = productDto.IsAvailable,
-                Quantity = productDto.Quantity,
-                UserId = userId,
-                CreatedAt = DateTime.UtcNow
+                Product = new Product
+                {
+                    Id = id,
+                    Name = request.Name,
+                    Description = request.Description,
+                    Price = request.Price, 
+                    IsAvailable = request.IsAvailable,
+                    Quantity = request.Quantity 
+                }
             };
 
-            _context.Products.Add(product);
-            await _context.SaveChangesAsync();
+            var response = await _mediator.Send(cmd);
 
-            return CreatedAtAction(nameof(GetProductById), new { id = product.Id }, product);
-        }
-
-
-
-        // GET: api/Products
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Product>>> GetAllProducts()
-        {
-            return await _context.Products.ToListAsync();
-        }
-
-        // GET: api/Products/filter
-        [HttpGet("filter")]
-        public async Task<ActionResult<IEnumerable<Product>>> FilterProducts(
-            string? name = null,
-            decimal? minPrice = null,
-            decimal? maxPrice = null,
-            bool? isAvailable = null)
-        {
-            var query = _context.Products.AsQueryable();
-
-            if (!string.IsNullOrWhiteSpace(name))
-            {
-                query = query.Where(p => p.Name.Contains(name));
-            }
-
-            if (minPrice.HasValue)
-            {
-                query = query.Where(p => p.Price >= minPrice.Value);
-            }
-
-            if (maxPrice.HasValue)
-            {
-                query = query.Where(p => p.Price <= maxPrice.Value);
-            }
-
-            if (isAvailable.HasValue)
-            {
-                query = query.Where(p => p.IsAvailable == isAvailable.Value);
-            }
-
-            return await query.ToListAsync();
-        }
-
-        // GET: api/Products/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Product>> GetProductById(int id)
-        {
-            var product = await _context.Products.FindAsync(id);
-
-            if (product == null)
-            {
-                return NotFound();
-            }
-
-            return product;
-        }
-
-        // PUT: api/Products/5
-        [HttpPut("{id}")]
-        [Authorize]
-        public async Task<IActionResult> UpdateProduct(int id, [FromBody] ProductUpdateDto updatedProductDto)
-        {
-            var validator = new ProductUpdateValidator();
-            var validationResult = await validator.ValidateAsync(updatedProductDto);
-
-            if (!validationResult.IsValid)
-            {
-                return BadRequest(validationResult.Errors);
-            }
-
-            var existingProduct = await _context.Products.FindAsync(id);
-            if (existingProduct == null)
-            {
-                return NotFound("Продукт не найден.");
-            }
-
-            if (!IsProductOwner(existingProduct))
-            {
-                return StatusCode(403, "Вы не можете редактировать этот товар.");
-            }
-
-            if (!string.IsNullOrWhiteSpace(updatedProductDto.Name))
-            {
-                existingProduct.Name = updatedProductDto.Name;
-            }
-
-            if (!string.IsNullOrWhiteSpace(updatedProductDto.Description))
-            {
-                existingProduct.Description = updatedProductDto.Description;
-            }
-
-            if (updatedProductDto.Price.HasValue)
-            {
-                existingProduct.Price = updatedProductDto.Price.Value;
-            }
-
-            if (updatedProductDto.IsAvailable.HasValue)
-            {
-                existingProduct.IsAvailable = updatedProductDto.IsAvailable.Value;
-            }
-
-            if (updatedProductDto.Quantity.HasValue)
-            {
-                existingProduct.Quantity = updatedProductDto.Quantity.Value;
-            }
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ProductExists(id))
-                {
-                    return NotFound();
-                }
-                throw;
-            }
+            if (!response.IsSuccessful)
+                return NotFound(response.Message);
 
             return NoContent();
         }
 
-        // DELETE: api/Products/5
+        // DELETE: api/products/{id}
         [HttpDelete("{id}")]
-        [Authorize]
-        public async Task<IActionResult> DeleteProduct(int id)
+        public async Task<IActionResult> DeleteProductAsync(int id)
         {
-            var product = await _context.Products.FindAsync(id);
+            var cmd = new DeleteProductCommand { ProductId = id };
+            var response = await _mediator.Send(cmd);
 
-            if (product == null)
-            {
-                return NotFound();
-            }
-
-            if (!IsProductOwner(product))
-            {
-                return StatusCode(403, "Вы не можете редактировать этот товар.");
-            }
-            _context.Products.Remove(product);
-            await _context.SaveChangesAsync();
+            if (!response.IsSuccessful)
+                return NotFound(response.Message);
 
             return NoContent();
         }
-       
-        private bool IsProductOwner(Product product)
+
+        // GET: api/products/filter
+        [HttpGet("filter")]
+        public async Task<ActionResult<List<Product>>> GetProductsByFilterAsync([FromQuery] string name, [FromQuery] decimal? minPrice, [FromQuery] decimal? maxPrice, [FromQuery] bool? isAvailable, [FromQuery] int? quantity)
         {
-            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
-            return userIdClaim != null && product.UserId == userIdClaim.Value;
+            var query = new GetProductsQueryWithFilter
+            {
+                Name = name,
+                MinPrice = minPrice,
+                MaxPrice = maxPrice,
+                IsAvailable = isAvailable,
+                Quantity = quantity
+            };
+
+            var products = await _mediator.Send(query);
+            return Ok(products);
         }
 
-        private bool ProductExists(int id)
-        {
-            return _context.Products.Any(e => e.Id == id);
-        }
+
     }
 }

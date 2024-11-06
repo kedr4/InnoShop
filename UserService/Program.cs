@@ -6,7 +6,7 @@ using System.Text;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.OpenApi.Models;
 using Serilog;
-
+using UserService.Api;
 
 namespace UserService
 {
@@ -14,192 +14,29 @@ namespace UserService
     {
         public static void Main(string[] args)
         {
-          
+               var builder = WebApplication.CreateBuilder(args);
+                IConfiguration configuration = builder.Configuration;
 
-            try
-            {
-                Log.Information("Starting web host");
-                var builder = WebApplication.CreateBuilder(args);
-                IConfiguration config = builder.Configuration;
-
-                // Загрузка настроек JWT из appsettings.json
-                  var jwtSettings = builder.Configuration.GetSection("JwtSettings");
-                 var key = jwtSettings["Secret"];
-                 var issuer = jwtSettings["Issuer"];
-                 var audience = jwtSettings["Audience"];
-
-                // Настройка SQL Server
-                builder.Services.AddDbContext<UserContext>(options =>
-                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-
-                // Настройка Identity
-                builder.Services.AddIdentity<User, IdentityRole>()
-                    .AddEntityFrameworkStores<UserContext>()
-                    .AddDefaultTokenProviders();
-
-                // Настройка аутентификации JWT
-                builder.Services.AddAuthentication(x =>
-                {
-                    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                    x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-                })
-                .AddJwtBearer(x =>
-                {
-                    x.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
-                    {
-
-                        ValidateIssuer = true,
-                        ValidateAudience = true,
-                        ValidateLifetime = true,
-                        ValidateIssuerSigningKey = true,
-                        ValidIssuer = issuer,
-                        ValidAudience = audience,
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key))
-                    };
-
-                    // Логирование событий аутентификации
-                    x.Events = new JwtBearerEvents
-                    {
-                        OnAuthenticationFailed = context =>
-                        {
-                            Log.Warning("Authentication failed: {Message}", context.Exception.Message);
-                            return Task.CompletedTask;
-                        },
-                        OnTokenValidated = context =>
-                        {
-                            Log.Information("Token validated successfully.");
-                            return Task.CompletedTask;
-                        },
-                        OnMessageReceived = context =>
-                        {
-                            Log.Information("JWT token received: {Token}", context.Request.Headers["Authorization"].ToString());
-                            return Task.CompletedTask;
-                        }
-                    };
-                });
-
-                builder.Services.AddCors(options =>
-                {
-                    options.AddPolicy("AllowAll", builder =>
-                        builder.AllowAnyOrigin()
-                               .AllowAnyMethod()
-                               .AllowAnyHeader());
-                });
-
-                builder.Services.AddScoped<EmailService>();
-
-
-                builder.Services.AddAuthorization();
-                // Добавление сервисов в контейнер
+                builder.Services.AddSwagger();
                 builder.Services.AddControllers();
-
-
-                // Настройка Swagger
-                builder.Services.AddEndpointsApiExplorer();
-                builder.Services.AddSwaggerGen(c =>
-                {
-                    c.SwaggerDoc("v1", new OpenApiInfo { Title = "UserService", Version = "v1" });
-
-                    // Добавление схемы безопасности для JWT
-                    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-                    {
-                        In = ParameterLocation.Header,
-                        Description = "Введите 'Bearer' [пробел] и ваш токен в поле ниже. \r\n\r\nПример: \"Bearer 12345abcdef\"",
-                        Name = "Authorization",
-                        Type = SecuritySchemeType.ApiKey
-                    });
-
-                    c.AddSecurityRequirement(new OpenApiSecurityRequirement
-                    {
-                        {
-                            new OpenApiSecurityScheme
-                            {
-                                Reference = new OpenApiReference
-                                {
-                                    Type = ReferenceType.SecurityScheme,
-                                    Id = "Bearer"
-                                }
-                            },
-                            new string[] {}
-                        }
-                    });
-                });
-
-
+                builder.Services.AddIdentity();
+                builder.Services.AddAuthentication(configuration);
+                builder.Services.AddAuthorization();
+                builder.Services.AddServices();
+                builder.Services.AddValidation();
+                builder.Services.AddEntityFramework(configuration);
                 var app = builder.Build();
 
-                using (var scope = app.Services.CreateScope())
-                {
-                    var db = scope.ServiceProvider.GetRequiredService<UserContext>();
-                    try
-                    {
-                        db.Database.Migrate();
-                        Console.WriteLine("Migration applied successfully.");
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine($"Database migration failed: {ex.Message}");
-                        throw; // Пробросьте ошибку, чтобы понять, в чем проблема
-                    }
-                }
-
-                // Настройка HTTP request pipeline
-                if (app.Environment.IsDevelopment())
-                {
-                    app.UseSwagger();
-                    app.UseSwaggerUI();
-                }
-
-                app.UseHttpsRedirection();
-
-                // Middleware для логирования запросов и ответов
-                app.Use(async (context, next) =>
-                {
-                    Log.Information("Received request: {Method} {Path}", context.Request.Method, context.Request.Path);
-                    Log.Information("Received request: {Method} {Path}", context.Request.Method, context.Request.Path);
-
-                    // Логируем тело запроса
-                    context.Request.EnableBuffering(); // Позволяет читать тело запроса несколько раз
-                    var bodyAsText = await new StreamReader(context.Request.Body).ReadToEndAsync();
-                    Log.Information("Request body: {Body}", bodyAsText);
-
-                    // Логируем токен из заголовка Authorization
-                    if (context.Request.Headers.ContainsKey("Authorization"))
-                    {
-                        var authHeader = context.Request.Headers["Authorization"].ToString();
-                        var token = authHeader.StartsWith("Bearer ") ? authHeader.Substring("Bearer ".Length).Trim() : authHeader;
-                        Log.Information("JWT token received: {Token}", token);
-                        if (token == null)
-                        {
-                            Log.Information("Token is null");
-                        }
-                    }
-
-
-                    context.Request.Body.Position = 0; // Вернуть поток на начало
-
-                    await next();
-
-                    Log.Information("Response status code: {StatusCode}", context.Response.StatusCode);
-                });
-                app.UseCors("AllowAll");
-                app.UseStaticFiles();
+                app.MapControllers();
+                app.UseSwagger(app);
+                // app.UseStaticFiles();
+                app.UseMiddlewares();
                 app.UseAuthentication(); 
                 app.UseAuthorization();  
                 
-                app.MapControllers();
 
                 app.Run();
-            }
-            catch (Exception ex)
-            {
-                Log.Fatal(ex, "Application start-up failed");
-            }
-            finally
-            {
-                Log.CloseAndFlush();
-            }
+           
         }
     }
 }
