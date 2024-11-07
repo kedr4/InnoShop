@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ProductService.Api.Controllers.Products.Requests;
 using ProductService.Application.Products.Commands.Create;
@@ -11,7 +12,7 @@ using ProductService.Models;
 namespace ProductService.Controllers
 {
     [ApiController]
-    //[Authorize]
+    [Authorize]
     [Route("api/products")]
     public class ProductsController : ControllerBase
     {
@@ -28,7 +29,7 @@ namespace ProductService.Controllers
         [HttpPost]
         public async Task<ActionResult<Product>> CreateProductAsync([FromBody] CreateProductRequest request)
         {
-
+            var userId = User.FindFirst("nameid")?.Value;
             var cmd = new CreateProductCommand()
 
             {
@@ -39,7 +40,9 @@ namespace ProductService.Controllers
                     Price = request.Price,
                     IsAvailable = request.IsAvailable,
                     Quantity = request.Quantity,
-                    CreatedAt = DateTime.UtcNow
+                    CreatedAt = DateTime.UtcNow,
+                    UserId = userId
+
                 }
             };
             var id = await _mediator.Send(cmd);
@@ -85,7 +88,7 @@ namespace ProductService.Controllers
                     Description = request.Description,
                     Price = request.Price,
                     IsAvailable = request.IsAvailable,
-                    Quantity = request.Quantity
+                    Quantity = request.Quantity,
                 }
             };
 
