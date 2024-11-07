@@ -1,11 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using UserService.Controllers;
-using UserService.Models;
-using Xunit;
 
 namespace UserService.Tests.Controllers
 {
@@ -20,8 +15,8 @@ namespace UserService.Tests.Controllers
                 .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
                 .Options;
 
-            _context = new UserContext(options); 
-           // _controller = new UsersController(_context); //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            _context = new UserContext(options);
+            // _controller = new UsersController(_context); //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         }
 
         [Fact]
@@ -39,7 +34,7 @@ namespace UserService.Tests.Controllers
             Assert.IsType<NoContentResult>(result);
             var updatedUser = await _context.Users.FindAsync(userId);
             Assert.NotNull(updatedUser);
-            Assert.Equal("Johnny", updatedUser.Name); 
+            Assert.Equal("Johnny", updatedUser.Name);
         }
 
         [Fact]
@@ -48,7 +43,7 @@ namespace UserService.Tests.Controllers
             var userId = "1";
             var user = new User { Id = userId, Name = "John", Lastname = "Doe", Email = "john@example.com", Role = "User" };
             await _context.Users.AddAsync(user);
-            await _context.SaveChangesAsync(); 
+            await _context.SaveChangesAsync();
 
             var result = await _controller.DeleteUser(userId);
 
@@ -65,8 +60,8 @@ namespace UserService.Tests.Controllers
                 new User { Id = "1", Name = "John", Lastname = "Doe", Email = "john@example.com", Role = "User" },
                 new User { Id = "2", Name = "Jane", Lastname = "Doe", Email = "jane@example.com", Role = "Admin" }
             };
-            await _context.Users.AddRangeAsync(users); 
-            await _context.SaveChangesAsync(); 
+            await _context.Users.AddRangeAsync(users);
+            await _context.SaveChangesAsync();
 
             var result = await _controller.GetUsers();
 

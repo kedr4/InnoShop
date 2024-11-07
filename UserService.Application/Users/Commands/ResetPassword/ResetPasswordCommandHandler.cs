@@ -1,10 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
-using System.Threading;
-using System.Threading.Tasks;
-using UserService.Models;
-using UserService.Application.Users.Commands.ResetPassword;
+using UserService.Domain.Users;
 
 namespace UserService.Application.Users.Commands.ResetPassword
 {

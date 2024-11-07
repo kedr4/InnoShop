@@ -1,6 +1,5 @@
-﻿using System.Reflection;
-using MediatR;
-using Microsoft.Extensions.DependencyInjection;
+﻿using MediatR;
+using System.Reflection;
 namespace ProductService
 {
     public static class ProgramMediatR

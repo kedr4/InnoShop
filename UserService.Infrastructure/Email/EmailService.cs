@@ -1,9 +1,7 @@
-using System;
-using System.Net;
-using System.Net.Mail;
-using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using System.Net;
+using System.Net.Mail;
 using UserService.Application.Users.Commands.Create.UserService.Infrastructure.Email;
 
 namespace UserService.Infrastructure.Email

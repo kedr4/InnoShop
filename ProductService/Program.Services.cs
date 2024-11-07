@@ -1,8 +1,5 @@
-﻿using Microsoft.OpenApi.Models;
-using ProductService.Domain.Products;
+﻿using ProductService.Domain.Products;
 using ProductService.Infrastructure.Database.Repositories;
-using System.Collections;
-using System.Runtime.CompilerServices;
 
 namespace ProductService
 {
@@ -11,13 +8,13 @@ namespace ProductService
         public static IServiceCollection AddServices(this IServiceCollection services)
         {
             services.AddMediator();
-            services.AddScoped<IProductRepository,ProductRepository>();
+            services.AddScoped<IProductRepository, ProductRepository>();
 
 
             return services;
         }
 
-       
+
 
     }
 }

@@ -1,10 +1,5 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UserService.Infrastructure.Database;
 
 namespace UserService.Application.Users.Commands.Update
@@ -20,7 +15,7 @@ namespace UserService.Application.Users.Commands.Update
 
         public async Task<UpdateUserResponse> Handle(UpdateUserCommand command, CancellationToken cancellationToken)
         {
-            var user = await _context.Users.FindAsync(command.UserId);
+            var user = await _context.Users.FindAsync(command.Id);
 
             if (user == null)
             {
@@ -28,10 +23,10 @@ namespace UserService.Application.Users.Commands.Update
             }
 
             // Обновляем поля пользователя
-            user.Name = command.Name;
-            user.Lastname = command.Lastname;
-            user.Email = command.Email;
-            user.Role = command.Role;
+            user.Name = command.User.Name;
+            user.Lastname = command.User.Lastname;
+            user.Email = command.User.Email;
+            user.Role = command.User.Role;
 
             try
             {

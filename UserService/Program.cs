@@ -1,11 +1,3 @@
-using Microsoft.EntityFrameworkCore;
-using UserService.Models;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.OpenApi.Models;
-using Serilog;
 using UserService.Api;
 
 namespace UserService
@@ -14,29 +6,29 @@ namespace UserService
     {
         public static void Main(string[] args)
         {
-               var builder = WebApplication.CreateBuilder(args);
-                IConfiguration configuration = builder.Configuration;
+            var builder = WebApplication.CreateBuilder(args);
+            IConfiguration configuration = builder.Configuration;
 
-                builder.Services.AddSwagger();
-                builder.Services.AddControllers();
-                builder.Services.AddIdentity();
-                builder.Services.AddAuthentication(configuration);
-                builder.Services.AddAuthorization();
-                builder.Services.AddServices();
-                builder.Services.AddValidation();
-                builder.Services.AddEntityFramework(configuration);
-                var app = builder.Build();
+            builder.Services.AddSwagger();
+            builder.Services.AddControllers();
+            builder.Services.AddIdentity();
+            builder.Services.AddAuthentication(configuration);
+            builder.Services.AddAuthorization();
+            builder.Services.AddServices();
+            builder.Services.AddValidation();
+            builder.Services.AddEntityFramework(configuration);
+            var app = builder.Build();
 
-                app.MapControllers();
-                app.UseSwagger(app);
-                // app.UseStaticFiles();
-                app.UseMiddlewares();
-                app.UseAuthentication(); 
-                app.UseAuthorization();  
-                
+            app.MapControllers();
+            app.UseSwagger(app);
+            // app.UseStaticFiles();
+            app.UseMiddlewares();
+            app.UseAuthentication();
+            app.UseAuthorization();
 
-                app.Run();
-           
+
+            app.Run();
+
         }
     }
 }

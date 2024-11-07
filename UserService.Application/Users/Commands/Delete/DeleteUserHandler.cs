@@ -1,11 +1,5 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using UserService.Models;
-using System.Threading;
-using System.Threading.Tasks;
 using UserService.Infrastructure.Database;
-using UserService.Application.Users.Commands.Create.UserService.Infrastructure.Email;
 
 namespace UserService.Application.Users.Commands.Delete
 {
@@ -24,13 +18,13 @@ namespace UserService.Application.Users.Commands.Delete
 
             if (user == null)
             {
-                return new DeleteUserResponse(false, "User not found"); 
+                return new DeleteUserResponse(false, "User not found");
             }
 
             _context.Users.Remove(user);
             await _context.SaveChangesAsync();
 
-            return new DeleteUserResponse(true);  
+            return new DeleteUserResponse(true);
         }
     }
 

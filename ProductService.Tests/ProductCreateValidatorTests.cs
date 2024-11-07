@@ -1,10 +1,4 @@
-﻿using FluentValidation.Results;
-using ProductService.Api.Controllers.Products.Validators;
-using ProductService.Models;
-using Xunit;
-using static ProductService.Controllers.ProductsController;
-
-namespace ProductService.Tests
+﻿namespace ProductService.Tests
 {
     public class ProductCreateValidatorTests
     {

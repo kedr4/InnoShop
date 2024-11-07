@@ -1,8 +1,8 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Identity;
-using System.Data.Entity;
+using Microsoft.EntityFrameworkCore;
 using UserService.Application.Users.Commands.Authenticate;
-using UserService.Models;
+using UserService.Domain.Users;
 
 public class AuthenticateUserCommandHandler : IRequestHandler<AuthenticateUserCommand, AuthenticateUserResponse>
 {

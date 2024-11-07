@@ -1,12 +1,4 @@
-﻿using Fluent.Infrastructure.FluentModel;
-using MediatR;
-using UserService.Infrastructure.Database;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UserService.Models;
+﻿using MediatR;
 using UserService.Domain.Users;
 
 namespace UserService.Application.Users.Queries

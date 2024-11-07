@@ -1,8 +1,4 @@
 ﻿using FluentValidation;
-using ProductService.Api.Controllers.Products.Validators;
-using ProductService.Models;
-using Xunit;
-using static ProductService.Controllers.ProductsController;
 
 namespace ProductService.Tests
 {
@@ -22,7 +18,7 @@ namespace ProductService.Tests
 
             var result = _validator.Validate(productDto);
 
-            Assert.True(result.IsValid); 
+            Assert.True(result.IsValid);
         }
 
         [Fact]
@@ -32,7 +28,7 @@ namespace ProductService.Tests
 
             var result = _validator.Validate(productDto);
 
-            Assert.True(result.IsValid); 
+            Assert.True(result.IsValid);
         }
 
         [Fact]

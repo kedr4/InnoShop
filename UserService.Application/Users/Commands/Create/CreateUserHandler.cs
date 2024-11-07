@@ -1,11 +1,9 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using UserService.Models;
-using System.Threading;
-using System.Threading.Tasks;
-using UserService.Infrastructure.Database;
 using UserService.Application.Users.Commands.Create.UserService.Infrastructure.Email;
+using UserService.Domain.Users;
+using UserService.Infrastructure.Database;
 
 namespace UserService.Application.Users.Commands.Create
 {
@@ -55,7 +53,7 @@ namespace UserService.Application.Users.Commands.Create
 
             // Генерация токена подтверждения
             var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-            var confirmationLink = $"http://yourdomain.com/api/Account/confirm?userId={user.Id}&token={Uri.EscapeDataString(token)}";
+            var confirmationLink = $"{request.Scheme}://{request.Host}/api/Account/confirm?userId={user.Id}&token={Uri.EscapeDataString(token)}";
             var subject = "Confirm your email";
             var body = $"Hello, {user.Name},<br><br>Please confirm your account by clicking <a href='{confirmationLink}'>here</a>.";
 
@@ -68,5 +66,6 @@ namespace UserService.Application.Users.Commands.Create
 
             return new CreateUserResponse { Id = user.Id, Email = user.Email };
         }
+
     }
 }

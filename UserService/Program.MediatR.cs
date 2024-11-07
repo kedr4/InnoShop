@@ -1,7 +1,5 @@
-﻿using System.Reflection;
-using MediatR;
-using Microsoft.Extensions.DependencyInjection;
-using UserService;
+﻿using MediatR;
+using System.Reflection;
 namespace UserService.Api
 {
     public static class ProgramMediatR

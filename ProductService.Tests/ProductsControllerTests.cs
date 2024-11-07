@@ -1,13 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProductService.Controllers;
-using Xunit;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using ProductService.Models;
-using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
-using ProductService;
 
 public class ProductsControllerTests
 {
@@ -76,7 +72,7 @@ public class ProductsControllerTests
     [Fact]
     public async Task GetAllProducts_ReturnsProductList()
     {
-        var controller = CreateControllerWithUser("user"); 
+        var controller = CreateControllerWithUser("user");
         var result = await controller.GetAllProducts();
 
         var okResult = Assert.IsType<ActionResult<IEnumerable<Product>>>(result);

@@ -1,8 +1,8 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Identity;
-using UserService.Models;
 using Microsoft.Extensions.Logging;
 using UserService.Application.Users.Commands.Create.UserService.Infrastructure.Email;
+using UserService.Domain.Users;
 
 namespace UserService.Application.Users.Commands.ForgotPassword
 {

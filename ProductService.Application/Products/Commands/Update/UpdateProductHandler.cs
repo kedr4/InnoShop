@@ -1,8 +1,5 @@
 ﻿using MediatR;
-using ProductService.Application.Products.Commands.Delete;
 using ProductService.Domain.Products;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace ProductService.Application.Products.Commands.Update
 {

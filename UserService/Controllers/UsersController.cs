@@ -1,24 +1,19 @@
-﻿using System.Collections.Generic;  
-using System.Threading.Tasks;       
-using Microsoft.Extensions.Logging; 
-using Microsoft.Extensions.Configuration;
+﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using UserService.Models;
-using MediatR;
+using UserService.Api.Controllers.Users.Requests;
+using UserService.Application.Users.Commands.Authenticate;
 using UserService.Application.Users.Commands.Create;
-using UserService.Infrastructure.Database;
 using UserService.Application.Users.Commands.Create.UserService.Infrastructure.Email;
 using UserService.Application.Users.Commands.Delete;
-using UserService.Application.Users.Commands.Update;
-using UserService.Application.Users.Commands.Authenticate;
-using UserService.Application.Users.Commands.GenerateJwtToken;
 using UserService.Application.Users.Commands.ForgotPassword;
+using UserService.Application.Users.Commands.GenerateJwtToken;
 using UserService.Application.Users.Commands.ResetPassword;
-using UserService.Api.Controllers.Users.Requests;
+using UserService.Application.Users.Commands.Update;
 using UserService.Application.Users.Queries;
+using UserService.Domain.Users;
+using UserService.Infrastructure.Database;
 
 
 namespace UserService.Controllers
@@ -75,15 +70,22 @@ namespace UserService.Controllers
 
         [HttpPut("{id}")]
         [Authorize]
-        public async Task<IActionResult> PutUser(string id, [FromBody] User updateUser)
+        public async Task<IActionResult> PutUser(string id, [FromBody] UpdateUserRequest updateUser)
         {
-            if (id != updateUser.Id)
-            {
-                return BadRequest("User ID mismatch.");
-            }
 
             // Отправляем команду через MediatR
-            var command = new UpdateUserCommand(updateUser.Id, updateUser.Name, updateUser.Lastname, updateUser.Email, updateUser.Role);
+            var command = new UpdateUserCommand()
+            {
+                Id = id,
+                User = new Domain.Users.User()
+                {
+                    Name = updateUser.Name,
+                    Email = updateUser.Name,
+                    Lastname = updateUser.Lastname,
+                    Role = updateUser.Role
+                }
+
+            };
             var result = await _mediator.Send(command);  // Отправляем команду через MediatR
 
             if (!result.Success)
@@ -121,7 +123,9 @@ namespace UserService.Controllers
                 Name = request.Name,
                 Lastname = request.Lastname,
                 Password = request.Password,
-                Role = request.Role
+                Role = request.Role,
+                Scheme = Request.Scheme,
+                Host = Request.Host.Value
             };
 
             // Отправляем команду и получаем ответ

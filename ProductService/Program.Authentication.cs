@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
@@ -8,7 +7,7 @@ namespace ProductService.Api;
 public static class ProgramAuthentication
 
 {
-    public static IServiceCollection AddAuthentication(this IServiceCollection services, IConfiguration configuration) 
+    public static IServiceCollection AddAuthentication(this IServiceCollection services, IConfiguration configuration)
     {
         var jwtSettings = configuration.GetSection("JwtSettings");
         var key = jwtSettings["Secret"];

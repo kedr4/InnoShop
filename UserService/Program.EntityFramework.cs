@@ -1,7 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using UserService;
 using UserService.Infrastructure.Database;
-using UserService.Models;
 
 namespace UserService.Api
 {

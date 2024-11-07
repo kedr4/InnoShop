@@ -1,20 +1,11 @@
-﻿using Azure;
-using MediatR;
-using Microsoft.AspNetCore.Authorization;
+﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using ProductService.Api.Controllers.Products.Requests;
 using ProductService.Application.Products.Commands.Create;
 using ProductService.Application.Products.Commands.Delete;
 using ProductService.Application.Products.Commands.Update;
 using ProductService.Application.Products.Querys;
 using ProductService.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.WebSockets;
-using System.Security.Claims;
-using System.Threading.Tasks;
 
 
 namespace ProductService.Controllers
@@ -37,9 +28,9 @@ namespace ProductService.Controllers
         [HttpPost]
         public async Task<ActionResult<Product>> CreateProductAsync([FromBody] CreateProductRequest request)
         {
-            
+
             var cmd = new CreateProductCommand()
-            
+
             {
                 Product = new Product()
                 {
@@ -52,12 +43,12 @@ namespace ProductService.Controllers
                 }
             };
             var id = await _mediator.Send(cmd);
-            
-           
+
+
             return Ok(id);
         }
 
-        
+
         // GET: api/products
         [HttpGet]
         public async Task<ActionResult<List<Product>>> GetProductsAsync()
@@ -79,7 +70,7 @@ namespace ProductService.Controllers
 
             return Ok(product);
         }
-        
+
 
         // PUT: api/products/{id}
         [HttpPut("{id}")]
@@ -92,9 +83,9 @@ namespace ProductService.Controllers
                     Id = id,
                     Name = request.Name,
                     Description = request.Description,
-                    Price = request.Price, 
+                    Price = request.Price,
                     IsAvailable = request.IsAvailable,
-                    Quantity = request.Quantity 
+                    Quantity = request.Quantity
                 }
             };
 

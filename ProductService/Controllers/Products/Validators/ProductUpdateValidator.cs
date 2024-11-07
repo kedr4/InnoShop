@@ -1,6 +1,5 @@
 ﻿using FluentValidation;
 using ProductService.Api.Controllers.Products.Requests;
-using static ProductService.Controllers.ProductsController;
 
 namespace ProductService.Api.Controllers.Products.Validators
 {

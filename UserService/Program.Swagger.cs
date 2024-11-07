@@ -1,6 +1,4 @@
 ﻿using Microsoft.OpenApi.Models;
-using System.Collections;
-using System.Runtime.CompilerServices;
 
 namespace UserService.Api
 {
@@ -8,7 +6,7 @@ namespace UserService.Api
     {
         public static IServiceCollection AddSwagger(this IServiceCollection services)
         {
-            services.AddEndpointsApiExplorer(); 
+            services.AddEndpointsApiExplorer();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "UserService", Version = "v1" });
