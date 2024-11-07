@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using ProductService.Api;
 
 namespace ProductService
@@ -26,8 +27,13 @@ namespace ProductService
             app.UseAuthorization();
 
 
-
+            using (var scope = app.Services.CreateScope())
+            {
+                var db = scope.ServiceProvider.GetRequiredService<DatabaseContext>();
+                db.Database.Migrate();
+            }
             app.Run();
+
         }
     }
 }

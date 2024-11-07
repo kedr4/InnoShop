@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Drawing.Text;
 using UserService.Infrastructure.Database;
 
 namespace UserService.Api
@@ -10,6 +11,9 @@ namespace UserService.Api
             // Настройка SQL Server
             services.AddDbContext<DatabaseContext>(options =>
             options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+
+
+            
             return services;
         }
     }

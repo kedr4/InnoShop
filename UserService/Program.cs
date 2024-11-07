@@ -1,4 +1,6 @@
+using Microsoft.EntityFrameworkCore;
 using UserService.Api;
+using UserService.Infrastructure.Database;
 
 namespace UserService
 {
@@ -21,12 +23,16 @@ namespace UserService
 
             app.MapControllers();
             app.UseSwagger(app);
-            // app.UseStaticFiles();
             app.UseMiddlewares();
             app.UseAuthentication();
             app.UseAuthorization();
 
+            using (var scope = app.Services.CreateScope())
+            {
+                var db = scope.ServiceProvider.GetRequiredService<DatabaseContext>();
+                db.Database.Migrate();
 
+            }
             app.Run();
 
         }

@@ -11,6 +11,7 @@ namespace ProductService
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            //modelBuilder.HasDefaultSchema("products");
             base.OnModelCreating(modelBuilder);
         }
     }
