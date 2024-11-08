@@ -7,6 +7,7 @@ using ProductService.Application.Products.Commands.Delete;
 using ProductService.Application.Products.Commands.Update;
 using ProductService.Application.Products.Querys;
 using ProductService.Models;
+using System.Security.Claims;
 
 
 namespace ProductService.Controllers
@@ -29,7 +30,7 @@ namespace ProductService.Controllers
         [HttpPost]
         public async Task<ActionResult<Product>> CreateProductAsync([FromBody] CreateProductRequest request)
         {
-            var userId = User.FindFirst("nameid")?.Value;
+            var userId = HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
             var cmd = new CreateProductCommand()
 
             {
