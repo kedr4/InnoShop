@@ -6,8 +6,10 @@ How to build?
 	docker build -t userservice .
 
 2)Open ProductService.Api in Terminal
+
 	dotnet build -o out .\ProductService.Api.csproj
  	docker build -t productservice .
 
 3)Then
+
  	docker-compose up 
