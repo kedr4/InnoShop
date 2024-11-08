@@ -33,8 +33,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ProductService.Application\ProductService.Application.csproj" />
+    <ProjectReference Include="..\ProductService.Domain\ProductService.Domain.csproj" />
     <ProjectReference Include="..\ProductService.Infrastructure\ProductService.Infrastructure.csproj" />
-    <ProjectReference Include="..\UserService.Domain\UserService.Domain.csproj" />
   </ItemGroup>
 
 </Project>

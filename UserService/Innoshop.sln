@@ -11,6 +11,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Элементы решен
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProductService.Api", "..\ProductService\ProductService.Api.csproj", "{90D13006-CC68-432B-ABC5-D10A95FE6976}"
+	ProjectSection(ProjectDependencies) = postProject
+		{46A6397F-F606-4D1D-A555-BEE871589EC6} = {46A6397F-F606-4D1D-A555-BEE871589EC6}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProductService.Api.Test.Unit", "..\ProductService.Tests\ProductService.Api.Test.Unit.csproj", "{79D0B9F3-224B-46E4-B7A6-9B91A6CC1D24}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -34,6 +37,9 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProductService.Infrastructure.Test.Unit", "..\ProductService.Infrastructure.Test.Unit\ProductService.Infrastructure.Test.Unit.csproj", "{E1410694-8C5B-4548-823C-1802E7AD0516}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProductService.Application.Test.Unit", "..\ProductService.Application.Test.Unit\ProductService.Application.Test.Unit.csproj", "{A4D7B347-3318-4DB3-8C82-027964DECFD8}"
+	ProjectSection(ProjectDependencies) = postProject
+		{06C4F91C-939B-4DF6-800F-94506A1F2A98} = {06C4F91C-939B-4DF6-800F-94506A1F2A98}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UserService", "UserService", "{BAD09C72-1675-4A45-9DC9-D00E7D373302}"
 EndProject
@@ -47,27 +53,27 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserService.Infrastructure"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserService.Application", "..\UserService.Application\UserService.Application.csproj", "{68700A01-0B0A-40AA-8918-79F473F6DB6F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserService.Api.Test.Unit", "..\UserService.Api.Test.Unit\UserService.Api.Test.Unit.csproj", "{9422BE2E-BB4B-4B7A-9F82-A34C68B92893}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserService.Api.Test.Unit", "..\UserService.Api.Test.Unit\UserService.Api.Test.Unit.csproj", "{9422BE2E-BB4B-4B7A-9F82-A34C68B92893}"
 	ProjectSection(ProjectDependencies) = postProject
 		{35F8A80A-3390-4966-9BCA-B00A4373E1F9} = {35F8A80A-3390-4966-9BCA-B00A4373E1F9}
 		{46A6397F-F606-4D1D-A555-BEE871589EC6} = {46A6397F-F606-4D1D-A555-BEE871589EC6}
 		{E57674E5-E695-4846-A4DA-C5ADC09B9A98} = {E57674E5-E695-4846-A4DA-C5ADC09B9A98}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserService.Application.Test.Unit", "..\UserService.Application.Test.Unit\UserService.Application.Test.Unit.csproj", "{21A8B7B8-B6AF-4E1C-BFCE-AD9C4D229A52}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserService.Application.Test.Unit", "..\UserService.Application.Test.Unit\UserService.Application.Test.Unit.csproj", "{21A8B7B8-B6AF-4E1C-BFCE-AD9C4D229A52}"
 	ProjectSection(ProjectDependencies) = postProject
 		{35F8A80A-3390-4966-9BCA-B00A4373E1F9} = {35F8A80A-3390-4966-9BCA-B00A4373E1F9}
 		{46A6397F-F606-4D1D-A555-BEE871589EC6} = {46A6397F-F606-4D1D-A555-BEE871589EC6}
 		{68700A01-0B0A-40AA-8918-79F473F6DB6F} = {68700A01-0B0A-40AA-8918-79F473F6DB6F}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserService.Infrastructure.Test.Unit", "..\UserService.Infrastructure.Test.Unit\UserService.Infrastructure.Test.Unit.csproj", "{7AA9BDDF-8808-4EE5-983D-331E1A85937F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserService.Infrastructure.Test.Unit", "..\UserService.Infrastructure.Test.Unit\UserService.Infrastructure.Test.Unit.csproj", "{7AA9BDDF-8808-4EE5-983D-331E1A85937F}"
 	ProjectSection(ProjectDependencies) = postProject
 		{35F8A80A-3390-4966-9BCA-B00A4373E1F9} = {35F8A80A-3390-4966-9BCA-B00A4373E1F9}
 		{46A6397F-F606-4D1D-A555-BEE871589EC6} = {46A6397F-F606-4D1D-A555-BEE871589EC6}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserService.Domain.Test.Unit", "..\UserService.Domain.Test.Unit\UserService.Domain.Test.Unit.csproj", "{8AFFBA0F-9B0A-4E10-967D-BF67B5417FCD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserService.Domain.Test.Unit", "..\UserService.Domain.Test.Unit\UserService.Domain.Test.Unit.csproj", "{8AFFBA0F-9B0A-4E10-967D-BF67B5417FCD}"
 	ProjectSection(ProjectDependencies) = postProject
 		{46A6397F-F606-4D1D-A555-BEE871589EC6} = {46A6397F-F606-4D1D-A555-BEE871589EC6}
 	EndProjectSection
